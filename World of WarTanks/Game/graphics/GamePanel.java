@@ -46,8 +46,15 @@ public class GamePanel extends JPanel implements MouseListener{
 		repaint();
 	}
 	
+	
+	public void update() {}
+	
+	public void render() {
+		this.repaint();
+	}
+	
 	@Override
-	public void paintComponent(Graphics g) {
+	public void paintComponent(Graphics g) { ///painting the image into the JPanel (Cant use buffered strategy)
 		super.paintComponent(g);
 		g.drawImage(image, 	0, 0, width, height, null);
 		g.dispose();
@@ -69,6 +76,8 @@ public class GamePanel extends JPanel implements MouseListener{
 	  
 	  @Override public void mouseReleased(MouseEvent e) { MouseX = -1; MouseY = -1;
 	  // TODO Auto-generated method stub
+	  MouseX = -1; 
+	  MouseY = -1;
 	  
 	  }
 	  
