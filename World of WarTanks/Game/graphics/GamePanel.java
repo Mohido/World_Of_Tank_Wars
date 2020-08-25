@@ -3,12 +3,15 @@ package Game.graphics;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
 import javax.swing.JPanel;
+
+import Game.inputs.Keyboard;
 
 public class GamePanel extends JPanel implements MouseListener{
 	/**
@@ -40,6 +43,8 @@ public class GamePanel extends JPanel implements MouseListener{
 		for(int i = 0 ; i < this.size ; i++) {
 			pixels[i] = bgcolor;
 		}
+		
+		requestFocus();
 		addMouseListener(this);
 		
 		
@@ -47,7 +52,9 @@ public class GamePanel extends JPanel implements MouseListener{
 	}
 	
 	
-	public void update() {}
+	public void update() {
+		
+	}
 	
 	public void render() {
 		this.repaint();
@@ -83,11 +90,11 @@ public class GamePanel extends JPanel implements MouseListener{
 	  
 	 @Override public void mouseEntered(MouseEvent e) { 
 		 // TODO Auto-generated
-		 System.out.println("Mouse entered"); 
+		 //System.out.println("Mouse entered"); 
 	 }
 	  
 	 @Override public void mouseExited(MouseEvent e) { 
-		 System.out.println("Mouse exited"); 
+		 //System.out.println("Mouse exited"); 
 	 }
 	 
 }

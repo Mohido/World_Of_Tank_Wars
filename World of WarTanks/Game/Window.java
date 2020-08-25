@@ -7,15 +7,20 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import Game.graphics.GamePanel;
+import Game.inputs.Keyboard;
 
 public class Window implements Runnable{
 	
 	private static int WIDTH = 720;
 	private static int HEIGHT = (WIDTH * 9) / 16;
 	private int ups, fps;
+
+	
 	
 	private static JFrame window;
-	private Thread gameThread = new Thread(this);
+	private Thread gameThread;
+	private static Keyboard keyboard;
+	
 	private boolean gameLoop = true;
 	
 	private List<GamePanel> components = new ArrayList<GamePanel>();
@@ -23,12 +28,19 @@ public class Window implements Runnable{
 	
 	///Default window with 16:9 ratio. And default width is 720
 	Window() {
+		gameThread = new Thread(this);
+		keyboard = new Keyboard();
 		window = new JFrame();
+		
 		window.setVisible(true);
 		window.setSize(WIDTH, HEIGHT);
+		window.setLocationRelativeTo(null);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setResizable(false);
 		window.setTitle("World of War-Tanks");	
+
+		window.addKeyListener(keyboard);
+		
 	}
 	
 	//Wiindow with costum width and height
@@ -36,9 +48,13 @@ public class Window implements Runnable{
 		WIDTH = width;
 		HEIGHT = height;
 		
+		gameThread = new Thread(this);
+		keyboard = new Keyboard();
 		window = new JFrame();
+		
 		window.setVisible(true);
 		window.setSize(WIDTH, HEIGHT);
+		window.setLocationRelativeTo(null);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setResizable(false);
 		window.setTitle("World of War-Tanks");
@@ -107,13 +123,17 @@ public class Window implements Runnable{
 		}
 	}
 	
+
 	
+		
+///____________________________ MAIN
 	public static void main(String[] args) {
 		int game_width = 500;
 		Window w = new Window();
 		
 		GamePanel game = new GamePanel(game_width , HEIGHT, 0xff00ff00);
 		GamePanel ui = new GamePanel(WIDTH - game_width , HEIGHT, 0xffffff00);
+		
 		
 		w.addComponent(game, BorderLayout.WEST);
 		w.addComponent(ui, BorderLayout.EAST);
