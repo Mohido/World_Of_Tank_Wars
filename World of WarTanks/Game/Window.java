@@ -7,6 +7,7 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import Game.graphics.GamePanel;
+import Game.graphics.SpriteSheet;
 import Game.inputs.Keyboard;
 
 public class Window implements Runnable{
@@ -75,10 +76,29 @@ public class Window implements Runnable{
 
 	
 	///____________________ GAME FUNCTIONALITY__________________
+	int x_shifter = 100 , y_shifter = 100;
+	
 	private void update() {
+		if(this.keyboard.pressedKeys[Keyboard.A]) {
+			x_shifter++;
+		}
+		if(this.keyboard.pressedKeys[Keyboard.D]) {
+			x_shifter--;
+		}
+		if(this.keyboard.pressedKeys[Keyboard.W] == true) {
+			y_shifter++;
+		}
+		if(this.keyboard.pressedKeys[Keyboard.S]) {
+			y_shifter--;
+		}
+		
 	}
 	
 	private void render() {
+//		for(int i = 0 ; i < components.size() ; i++) {
+//			components.get(i).render();
+//		}
+		components.get(0).render(x_shifter , y_shifter);
 	}
 	
 	
@@ -95,9 +115,9 @@ public class Window implements Runnable{
 			if(temp_time - currentTime > updates_per_second) {
 				currentTime = temp_time;
 				updates++;
-				update();
+				this.update();
 			}
-			render();
+			this.render();
 			frames++;
 			
 			long temp = System.currentTimeMillis();
@@ -129,11 +149,11 @@ public class Window implements Runnable{
 ///____________________________ MAIN
 	public static void main(String[] args) {
 		int game_width = 500;
+		
 		Window w = new Window();
-		
-		GamePanel game = new GamePanel(game_width , HEIGHT, 0xff00ff00);
-		GamePanel ui = new GamePanel(WIDTH - game_width , HEIGHT, 0xffffff00);
-		
+		GamePanel game = new GamePanel(game_width , HEIGHT);
+		GamePanel ui = new GamePanel(WIDTH - game_width , HEIGHT);
+		game.createCanvasComponent();
 		
 		w.addComponent(game, BorderLayout.WEST);
 		w.addComponent(ui, BorderLayout.EAST);
@@ -141,6 +161,8 @@ public class Window implements Runnable{
 		w.packComponent();
 		
 		w.start();
+		
+		
 		
 	}
 }

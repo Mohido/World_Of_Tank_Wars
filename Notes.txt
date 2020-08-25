@@ -1,0 +1,20 @@
+Log 5:
+	Added a canvas on the left Jpanel.
+	Fixed some bugs related to the Jpanel location and removed the mouse liistener form the canvas-jpanel and inherited it to its child (canvas)
+
+Future Plan:
+	Creating Sprite class to handle specific sprites, and maybe creating an independent Tile class which represents the sprite.
+	Creating a level class which allows you to create you own level design. The design can be taken from an image file.
+	Fixing the GameCanvas rendering method and adding more functionality to it. Render Entity, for instance.
+	Adding collision physics and buffs for the Sprite classes. some sprite classes requires special collision detection methods.
+	Creating an Entity class to represent the independent objects as player, projectiles and particles.
+	Adding enemies and basic AI.
+	Creating a Healthbar an enemies Healthbars.
+	Creating different weapons ( 3 Weapons states ) which can be chosen from the R.H.S panel
+	Creating a Mini-Map which will be a representation of the map.
+	Creating more functionality:	
+		1: creating random weapon on the map with different damages and rates of fire.
+		2: creating a special weapon which consumes some energy. Therefore, and energy bar will be created under the main health Bar.
+
+More to consider:
+	
