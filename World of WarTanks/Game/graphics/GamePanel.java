@@ -1,22 +1,15 @@
 package Game.graphics;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferInt;
-
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
-import Game.inputs.Keyboard;
+import Game.level.Level;
 
 public class GamePanel extends JPanel implements MouseListener{
 	/**
@@ -26,7 +19,7 @@ public class GamePanel extends JPanel implements MouseListener{
 	public int width, height, size;
 	public int MouseX, MouseY;
 	
-	private GameCanvas game = null;
+	private GameCanvas canvas = null;
 	
 	public GamePanel(int width, int height){
 		this.width = width;
@@ -39,37 +32,43 @@ public class GamePanel extends JPanel implements MouseListener{
 		this.setVisible(true);
 		this.setBackground(Color.DARK_GRAY);
 		addMouseListener(this);
-		this.setBorder(BorderFactory.createLineBorder(Color.white));
+		this.setBorder(BorderFactory.createLineBorder(Color.gray));
 		this.setMaximumSize(new Dimension(width, height));
-		this.setBounds(0, 0, width, height);
-		
+		this.setBounds(0, 0, width, height);	
 	}
 	
 	
-/// Main Updates and rendering funcitons----------------
+/// Main Updates and rendering functions----------------
 	public void update() {
 	}
 	
 	public void render() {
-		if(game != null) {
-			game.render();
+		if(canvas != null) {
+			canvas.render();
 		}
 	}
 	
 /// More functionality:-
-	public void createCanvasComponent() { ///Ading a full canvas upon the jpanel component
-		this.game = new GameCanvas(this.width , this.height);
-		this.game.addMouseListener(this);
+	public void createCanvasComponent() { ///Adding a full canvas upon the jpanel component
+		this.canvas = new GameCanvas(this.width, this.height);
+		this.canvas.addMouseListener(this);
 		this.removeMouseListener(this);
-		this.add(game);
+		this.add(canvas);
 		this.setLayout(new GridLayout());
 	}
 	
 	public void render( int xoffset , int yoffset) {
-		if(game != null) {
-			game.render(xoffset, yoffset);
+		if(canvas != null) {
+			canvas.render(xoffset, yoffset);
 		}
 	}
+
+	public void setLevel(Level level) {
+		if(canvas != null) {
+			canvas.setLevel(level);
+		}
+	}
+	
 	
 ////________________ mouse functionality_________________
 	@Override
@@ -91,16 +90,15 @@ public class GamePanel extends JPanel implements MouseListener{
 	  // TODO Auto-generated method stub
 		  MouseX = -1; 
 		  MouseY = -1;
-		  
 	  }
 	  
 	 @Override public void mouseEntered(MouseEvent e) { 
 		 // TODO Auto-generated
-		 System.out.println("Mouse entered"); 
+		 //System.out.println("Mouse entered"); 
 	 }
 	  
 	 @Override public void mouseExited(MouseEvent e) { 
-		 System.out.println("Mouse exited"); 
+		 //System.out.println("Mouse exited"); 
 	 }
 	 
 }

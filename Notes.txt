@@ -2,6 +2,11 @@ Log 5:
 	Added a canvas on the left Jpanel.
 	Fixed some bugs related to the Jpanel location and removed the mouse liistener form the canvas-jpanel and inherited it to its child (canvas)
 
+Log 6:
+	Created a Sprite, Tile, Entity, Level class.
+	Changed a bit of the game engine logic: I made the canvas attach a level to it .. and the level is the responsible for the rendering of all of its components (Entities and tiles)
+
+
 Future Plan:
 	Creating Sprite class to handle specific sprites, and maybe creating an independent Tile class which represents the sprite.
 	Creating a level class which allows you to create you own level design. The design can be taken from an image file.

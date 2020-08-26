@@ -7,7 +7,6 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import Game.graphics.GamePanel;
-import Game.graphics.SpriteSheet;
 import Game.inputs.Keyboard;
 
 public class Window implements Runnable{
@@ -15,24 +14,19 @@ public class Window implements Runnable{
 	private static int WIDTH = 720;
 	private static int HEIGHT = (WIDTH * 9) / 16;
 	private int ups, fps;
-
-	
+	private boolean gameLoop = true;
 	
 	private static JFrame window;
 	private Thread gameThread;
 	private static Keyboard keyboard;
-	
-	private boolean gameLoop = true;
-	
-	private List<GamePanel> components = new ArrayList<GamePanel>();
-	
-	
+
+	private List<GamePanel> components = new ArrayList<GamePanel>(); ///Contains all the components
+
 	///Default window with 16:9 ratio. And default width is 720
 	Window() {
 		gameThread = new Thread(this);
 		keyboard = new Keyboard();
 		window = new JFrame();
-		
 		window.setVisible(true);
 		window.setSize(WIDTH, HEIGHT);
 		window.setLocationRelativeTo(null);
@@ -41,7 +35,6 @@ public class Window implements Runnable{
 		window.setTitle("World of War-Tanks");	
 
 		window.addKeyListener(keyboard);
-		
 	}
 	
 	//Wiindow with costum width and height
@@ -74,10 +67,9 @@ public class Window implements Runnable{
 		gameThread.start();
 	}
 
-	
-	///____________________ GAME FUNCTIONALITY__________________
+///____________________ GAME FUNCTIONALITY__________________
 	int x_shifter = 100 , y_shifter = 100;
-	
+
 	private void update() {
 		if(this.keyboard.pressedKeys[Keyboard.A]) {
 			x_shifter++;
@@ -90,18 +82,17 @@ public class Window implements Runnable{
 		}
 		if(this.keyboard.pressedKeys[Keyboard.S]) {
 			y_shifter--;
-		}
-		
+		}		
 	}
-	
+
 	private void render() {
 //		for(int i = 0 ; i < components.size() ; i++) {
 //			components.get(i).render();
 //		}
-		components.get(0).render(x_shifter , y_shifter);
+		components.get(0).render();
 	}
-	
-	
+
+///_________________ Game Thread functionality
 	@Override
 	public void run() {
 		long currentTime = System.nanoTime(); /// for calculating the time differences
@@ -131,7 +122,6 @@ public class Window implements Runnable{
 			}
 		}
 	}
-	
 
 	public void end() {
 		gameLoop = false;
@@ -142,10 +132,7 @@ public class Window implements Runnable{
 			e.printStackTrace();
 		}
 	}
-	
 
-	
-		
 ///____________________________ MAIN
 	public static void main(String[] args) {
 		int game_width = 500;
@@ -161,8 +148,5 @@ public class Window implements Runnable{
 		w.packComponent();
 		
 		w.start();
-		
-		
-		
 	}
 }

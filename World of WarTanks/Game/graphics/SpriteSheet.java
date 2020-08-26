@@ -8,6 +8,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class SpriteSheet {
+	public static int PIXELS_PER_TILE = 16;
+	
 	
 	private BufferedImage image;
 	private int width, height; 
@@ -36,6 +38,19 @@ public class SpriteSheet {
 	public int[] getPixels() {
 		return this.pixels;
 	}
+	
+	public void crop(int xCoordinates, int yCoordinates , int width, int height , int[] pixels) {
+		int nx = 0, ny = 0;
+		for(int y = yCoordinates ; y < height ; y++) {
+			for(int x = xCoordinates ; x < width ; x++) {
+				pixels[nx + ny * width] = this.pixels[x + y * this.width];
+				nx++;
+			}
+			nx = 0;
+			ny++;
+		}
+	}
+	
 	public int getWidth() {return this.width;}
 	public int getHeight() {return this.height;}
 	
