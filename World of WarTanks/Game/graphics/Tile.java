@@ -1,5 +1,7 @@
 package Game.graphics;
 
+import Game.level.Level;
+
 public class Tile {
 	private Sprite sprite;
 	private boolean collidable = false;
@@ -28,21 +30,8 @@ public class Tile {
 	
 	
 ///we can add a zoomer...!
-	public void renderTile(GameCanvas canvas, int xCoord , int yCoord) {
-		int xa = xCoord * 48;
-		int ya = yCoord * 48;
-		
-		for(int y = 0; y < this.height * 3; y++) {
-			int yp = y + ya;
-			for(int x = 0 ; x < this.width * 3; x++) {
-				int xp = x + xa;
-				if(xp >= canvas.getWidth() || xp < 0 || yp >= canvas.geHeight() || yp < 0) continue;
-				canvas.pixels[xp + yp * canvas.getWidth()] = this.sprite.getPixels()[(x/3) + (y/3) * sprite.getWidth()];
-			}
-		}
-		
-		
-		
+	public void renderTile(Level level, int xCoord, int yCoord) {
+		level.renderTile(xCoord , yCoord, this);
 	}
 	
 }

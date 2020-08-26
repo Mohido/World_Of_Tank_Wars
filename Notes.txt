@@ -9,6 +9,11 @@ Log 6:
 Log 7:
 	Rendered the level to the canvas..
 
+
+Log 8:
+	Done the rendering Tiles with the best i could and simplest way i figured.
+	Fixed the rendering method in the level class and added a new level.png
+
 Future Plan:
 	Creating Sprite class to handle specific sprites, and maybe creating an independent Tile class which represents the sprite.
 	Creating a level class which allows you to create you own level design. The design can be taken from an image file.

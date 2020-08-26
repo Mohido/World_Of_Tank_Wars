@@ -84,7 +84,10 @@ public class Window implements Runnable{
 		}
 		if(this.keyboard.pressedKeys[Keyboard.S]) {
 			y_shifter--;
-		}		
+		}
+		
+		
+		components.get(0).update();
 	}
 
 	private void render() {
@@ -143,7 +146,7 @@ public class Window implements Runnable{
 		GamePanel game = new GamePanel(game_width , HEIGHT);
 		GamePanel ui = new GamePanel(WIDTH - game_width , HEIGHT);
 		game.createCanvasComponent();
-		game.setLevel(new Level("../res/Dumb_Level_Blueprint.png"));
+		game.setLevel(new Level("../res/Dumb2_Level.png"));
 		
 		w.addComponent(game, BorderLayout.WEST);
 		w.addComponent(ui, BorderLayout.EAST);

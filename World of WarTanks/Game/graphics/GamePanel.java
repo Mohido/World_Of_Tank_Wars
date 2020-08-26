@@ -42,6 +42,9 @@ public class GamePanel extends JPanel implements MouseListener{
 	
 /// Main Updates and rendering functions----------------
 	public void update() {
+		if(canvas != null) {
+			canvas.update();
+		}
 	}
 	
 	public void render() {
