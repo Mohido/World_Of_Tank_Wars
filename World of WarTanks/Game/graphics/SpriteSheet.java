@@ -39,15 +39,15 @@ public class SpriteSheet {
 		return this.pixels;
 	}
 	
+///pixel coordinates
 	public void crop(int xCoordinates, int yCoordinates , int width, int height , int[] pixels) {
-		int nx = 0, ny = 0;
-		for(int y = yCoordinates ; y < height ; y++) {
-			for(int x = xCoordinates ; x < width ; x++) {
-				pixels[nx + ny * width] = this.pixels[x + y * this.width];
-				nx++;
+		System.out.println(xCoordinates + ", " + yCoordinates);
+		for(int y = 0; y < height ; y++) {
+			int ny = y + yCoordinates;
+			for(int x = 0 ; x < width ; x++) {
+				int nx = x + xCoordinates;
+				pixels[x + y * width] = this.pixels[nx + ny * this.width];
 			}
-			nx = 0;
-			ny++;
 		}
 	}
 	

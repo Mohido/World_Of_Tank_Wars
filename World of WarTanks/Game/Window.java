@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 
 import Game.graphics.GamePanel;
 import Game.inputs.Keyboard;
+import Game.level.Level;
 
 public class Window implements Runnable{
 	
@@ -18,14 +19,14 @@ public class Window implements Runnable{
 	
 	private static JFrame window;
 	private Thread gameThread;
-	private static Keyboard keyboard;
+	public final static Keyboard keyboard = new Keyboard();
 
 	private List<GamePanel> components = new ArrayList<GamePanel>(); ///Contains all the components
 
 	///Default window with 16:9 ratio. And default width is 720
 	Window() {
 		gameThread = new Thread(this);
-		keyboard = new Keyboard();
+		//keyboard = new Keyboard();
 		window = new JFrame();
 		window.setVisible(true);
 		window.setSize(WIDTH, HEIGHT);
@@ -43,7 +44,7 @@ public class Window implements Runnable{
 		HEIGHT = height;
 		
 		gameThread = new Thread(this);
-		keyboard = new Keyboard();
+		//keyboard = new Keyboard();
 		window = new JFrame();
 		
 		window.setVisible(true);
@@ -57,6 +58,7 @@ public class Window implements Runnable{
 	public void addComponent(GamePanel component, Object constraints) {
 		components.add(component);
 		window.add(component, constraints); //
+		
 	}
 	
 	///Helper functionality (API Functionality)
@@ -141,6 +143,7 @@ public class Window implements Runnable{
 		GamePanel game = new GamePanel(game_width , HEIGHT);
 		GamePanel ui = new GamePanel(WIDTH - game_width , HEIGHT);
 		game.createCanvasComponent();
+		game.setLevel(new Level("../res/Dumb_Level_Blueprint.png"));
 		
 		w.addComponent(game, BorderLayout.WEST);
 		w.addComponent(ui, BorderLayout.EAST);

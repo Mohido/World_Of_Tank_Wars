@@ -47,8 +47,10 @@ public class GameCanvas extends Canvas {
 			return;
 		}		
 		this.clear();
+		
 		if(level != null) {
 			level.render();
+			//System.out.println("rendering the level");
 		}
 		
 		Graphics g = bs.getDrawGraphics();

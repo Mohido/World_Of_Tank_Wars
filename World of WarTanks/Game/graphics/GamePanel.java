@@ -9,6 +9,7 @@ import java.awt.event.MouseListener;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
+import Game.inputs.Keyboard;
 import Game.level.Level;
 
 public class GamePanel extends JPanel implements MouseListener{
@@ -18,6 +19,7 @@ public class GamePanel extends JPanel implements MouseListener{
 	private static final long serialVersionUID = 1L;
 	public int width, height, size;
 	public int MouseX, MouseY;
+	
 	
 	private GameCanvas canvas = null;
 	
@@ -68,8 +70,6 @@ public class GamePanel extends JPanel implements MouseListener{
 			canvas.setLevel(level);
 		}
 	}
-	
-	
 ////________________ mouse functionality_________________
 	@Override
 	public void paintComponent(Graphics g) { ///painting the image into the JPanel (Cant use buffered strategy)
