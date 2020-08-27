@@ -8,7 +8,7 @@ import Game.level.Level;
 public class Player extends Charact {
 	
 	
-	///Coordinates Formate, (Tile base). 
+	///Coordinates Format, (Tile base). 
 	public Player(Level level, Sprite sprite, int xCoord, int yCoord) {
 		this.x = xCoord * 48 ;
 		this.y = yCoord * 48 ;
@@ -17,9 +17,7 @@ public class Player extends Charact {
 		this.level.shift(this.x, this.y);
 	}
 	
-	private int anim = 0;
 	public void update() {
-		
 		int nx = 0, ny = 0;
 		if(Window.keyboard.pressedKeys[Keyboard.A]) {
 			nx--;
@@ -33,14 +31,9 @@ public class Player extends Charact {
 		if(Window.keyboard.pressedKeys[Keyboard.S]) {
 			ny++;
 		}
-		
-		//if( anim % 5 == 0 ) {
-			this.move(nx,ny);
-			//System.out.println(nx + ", " + ny);
-			this.level.shift(nx, ny);
-		//}
-		
-		anim++;
+		this.move(0,ny);
+		this.move(nx,0);
+		//this.level.shift(nx, ny);
 	}
 	
 	public void render() {

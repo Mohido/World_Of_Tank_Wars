@@ -6,7 +6,9 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
+import Game.entity.character.Player;
 import Game.graphics.GamePanel;
+import Game.graphics.Sprite;
 import Game.inputs.Keyboard;
 import Game.level.Level;
 
@@ -141,12 +143,16 @@ public class Window implements Runnable{
 ///____________________________ MAIN
 	public static void main(String[] args) {
 		int game_width = 500;
+		Level level = new Level("../res/Sample_Level.png");
+		
 		
 		Window w = new Window();
 		GamePanel game = new GamePanel(game_width , HEIGHT);
 		GamePanel ui = new GamePanel(WIDTH - game_width , HEIGHT);
+		
 		game.createCanvasComponent();
-		game.setLevel(new Level("../res/Sample_Level.png"));
+		game.setLevel(level);
+		game.setPlayer(new Player(level, Sprite.player_forward1, 10 ,15));
 		
 		w.addComponent(game, BorderLayout.WEST);
 		w.addComponent(ui, BorderLayout.EAST);

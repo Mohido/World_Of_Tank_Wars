@@ -7,7 +7,7 @@ import Game.level.Level;
 
 public class Tile {
 	private Sprite sprite;
-	private boolean collidable = false;
+	private boolean solid = false;
 	private int width , height;
 	
 	public static final Tile flower_grass1 = new Tile(Sprite.flower_grass1, false);
@@ -26,11 +26,11 @@ public class Tile {
 		this.sprite = sprite;
 		this.width = sprite.getWidth();
 		this.height = sprite.getHeight();
-		this.collidable = collidable;
+		this.solid = collidable;
 	}
 	
 	public Sprite getSprite() {return this.sprite;}
-	public boolean collidable() {return collidable;}
+	public boolean solid() {return solid;}
 	
 	
 ///we can add a zoomer...!

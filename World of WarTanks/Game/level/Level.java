@@ -39,29 +39,12 @@ public class Level {
 		}
 		this.xShift = 0;
 		this.yShift = 0;
-		this.hero = new Player(this, Sprite.player_forward1, 10 ,15);
+		//this.hero = new Player(this, Sprite.player_forward1, 10 ,15);
 	}
 	
 /// ________ Game Loop
-	private int anim= 0;
 	public void update() {
-//		int x= 0, y = 0;
-//		if(Window.keyboard.pressedKeys[Keyboard.A]) {
-//			x++;
-//		}
-//		if(Window.keyboard.pressedKeys[Keyboard.D]) {
-//			x--;
-//		}
-//		if(Window.keyboard.pressedKeys[Keyboard.W] == true) {
-//			y++;
-//		}
-//		if(Window.keyboard.pressedKeys[Keyboard.S]) {
-//			y--;
-//		}
-//		
-//		shift(x , y);
 		hero.update();
-		//anim++;
 	}
 	
 	public void render() {
@@ -90,8 +73,6 @@ public class Level {
 		if(map[x + y * this.width] == 0xff1bd8c6) return Tile.water;
 		if(map[x + y * this.width] == 0xff76683d) return Tile.mud1;
 		if(map[x + y * this.width] == 0xff430505) return Tile.mud2;
-	
-		//if(map[x + y * this.width] == 0xffa4ff00) return Tile.flower_grass1;
 		return Tile.water;
 	}
 	
@@ -132,6 +113,19 @@ public class Level {
 		//System.out.println("shifter");
 	}
 	public boolean checkCollision(int x , int y, Entity e) {
+		
+		if(getTile( (x + e.getSprite().getBorderWidth() * 3)/48 , (y+ e.getSprite().getBorderWidth() * 3)/48).solid()) ///checking up and left
+			return true;
+
+		if(getTile((x + e.getSprite().getWidth() * 3 - e.getSprite().getBorderWidth() * 3)/48 , (y + e.getSprite().getHeight() * 3 - e.getSprite().getBorderWidth() * 3)/48).solid()) //checking down and right 
+			return true;
+		
+		if(getTile((x + e.getSprite().getBorderWidth() * 3)/48 , (y + e.getSprite().getHeight() * 3 -e.getSprite().getBorderWidth()*3)/48).solid()) /// checking down and left 
+			return true;
+		
+		if(getTile((x + e.getSprite().getWidth() * 3 - e.getSprite().getBorderWidth() * 3)/48 , (y + e.getSprite().getBorderWidth() * 3)/48).solid())  /// checking up and right
+			return true;
+		
 		return false;
 	}
 	
@@ -141,6 +135,9 @@ public class Level {
 		this.canvas = gameCanvas;
 		shift(-(gameCanvas.getWidth()/2 - 48/2) , -(gameCanvas.getHeight()/2 - 48/2));
 	}
-
+	
+	public void setPlayer(Player player) {
+		this.hero = player;
+	}
 	
 }

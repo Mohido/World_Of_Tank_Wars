@@ -20,6 +20,9 @@ Log 9:
 	shifting the level to the left and top once the canvas is created .. so position (0,0) is the center of the things you see in the display.
 	editing the shifting to be centered around the player once it is created. and Added a move method to the player. ( I have to edit the move function in the player and make it independent from the character class. coz it will make problems
 
+Log 10:
+	adding a collision detection function to the Level.java and making it perfect. Plus i changed the move function a bit (distrubiting the check collision on defirent axis.
+
 Future Plan:
 	Creating Sprite class to handle specific sprites, and maybe creating an independent Tile class which represents the sprite.
 	Creating a level class which allows you to create you own level design. The design can be taken from an image file.

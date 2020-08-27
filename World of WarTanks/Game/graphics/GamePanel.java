@@ -9,6 +9,7 @@ import java.awt.event.MouseListener;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
+import Game.entity.character.Player;
 import Game.inputs.Keyboard;
 import Game.level.Level;
 
@@ -19,7 +20,7 @@ public class GamePanel extends JPanel implements MouseListener{
 	private static final long serialVersionUID = 1L;
 	public int width, height, size;
 	public int MouseX, MouseY;
-	
+	private Level level;
 	
 	private GameCanvas canvas = null;
 	
@@ -69,6 +70,7 @@ public class GamePanel extends JPanel implements MouseListener{
 	}
 
 	public void setLevel(Level level) {
+		this.level = level;
 		if(canvas != null) {
 			canvas.setLevel(level);
 		}
@@ -103,5 +105,11 @@ public class GamePanel extends JPanel implements MouseListener{
 	 @Override public void mouseExited(MouseEvent e) { 
 		 //System.out.println("Mouse exited"); 
 	 }
+
+
+	public void setPlayer(Player player) {
+		// TODO Auto-generated method stub
+		this.level.setPlayer(player);
+	}
 	 
 }
