@@ -1,8 +1,13 @@
 package Game.entity;
 
-abstract class Entity {
-	int x,y;
-	boolean removed = false;
+import Game.graphics.Sprite;
+import Game.level.Level;
+
+public abstract class Entity {
+	protected int x,y;
+	protected boolean removed = false;
+	protected Sprite sprite;
+	protected Level level;
 	
 	public void update() {}
 	public void render() {}
@@ -11,7 +16,8 @@ abstract class Entity {
 	
 	public boolean collidable() {return false;}
 	public void remove() {removed = true;}
-	public boolean removed() {return removed;}
-	
-	
+	public boolean isRemoved() {return removed;}
+	public Sprite getSprite() {return this.sprite;}
+	public int getX() {return this.x;}
+	public int getY() {return this.y;}
 }

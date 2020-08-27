@@ -146,7 +146,7 @@ public class Window implements Runnable{
 		GamePanel game = new GamePanel(game_width , HEIGHT);
 		GamePanel ui = new GamePanel(WIDTH - game_width , HEIGHT);
 		game.createCanvasComponent();
-		game.setLevel(new Level("../res/Dumb2_Level.png"));
+		game.setLevel(new Level("../res/Sample_Level.png"));
 		
 		w.addComponent(game, BorderLayout.WEST);
 		w.addComponent(ui, BorderLayout.EAST);
