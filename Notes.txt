@@ -23,12 +23,16 @@ Log 9:
 Log 10:
 	adding a collision detection function to the Level.java and making it perfect. Plus i changed the move function a bit (distrubiting the check collision on defirent axis.
 
+Log 11:
+	Added animation functioniality to the Player. which looks cool and precise.
+		: I need to change the player to an animated player and make the user enter an array of sprites to the player.
+
 Future Plan:
-	Creating Sprite class to handle specific sprites, and maybe creating an independent Tile class which represents the sprite.
-	Creating a level class which allows you to create you own level design. The design can be taken from an image file.
-	Fixing the GameCanvas rendering method and adding more functionality to it. Render Entity, for instance.
-	Adding collision physics and buffs for the Sprite classes. some sprite classes requires special collision detection methods.
-	Creating an Entity class to represent the independent objects as player, projectiles and particles.
+Done	Creating Sprite class to handle specific sprites, and maybe creating an independent Tile class which represents the sprite.
+Done 	Creating a level class which allows you to create you own level design. The design can be taken from an image file.
+Done 	Fixing the level rendering method and adding more functionality to it. Render Entity, for instance.
+50% 	Adding collision physics and buffs for the Sprite classes. some sprite classes requires special collision detection methods.
+Done	Creating an Entity class to represent the independent objects as player, projectiles and particles.
 	Adding enemies and basic AI.
 	Creating a Healthbar an enemies Healthbars.
 	Creating different weapons ( 3 Weapons states ) which can be chosen from the R.H.S panel

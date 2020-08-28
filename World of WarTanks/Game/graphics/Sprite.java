@@ -22,6 +22,20 @@ public class Sprite {
 	
 	//_________ Player's Sprites!
 	public static final Sprite player_forward1 = new Sprite(SpriteSheet.TANK_SHEET, 0, 0 , 16, 16, 1);
+	public static final Sprite player_forward2 = new Sprite(SpriteSheet.TANK_SHEET, 1, 0 , 16, 16, 1);
+	public static final Sprite player_forward3 = new Sprite(SpriteSheet.TANK_SHEET, 2, 0 , 16, 16, 1);
+	
+	public static final Sprite player_right1 = new Sprite(SpriteSheet.TANK_SHEET, 0, 1 , 16, 16, 1);
+	public static final Sprite player_right2 = new Sprite(SpriteSheet.TANK_SHEET, 1, 1 , 16, 16, 1);
+	public static final Sprite player_right3 = new Sprite(SpriteSheet.TANK_SHEET, 2, 1 , 16, 16, 1);
+	
+	public static final Sprite player_backward1 = new Sprite(SpriteSheet.TANK_SHEET, 0, 2 , 16, 16, 1);
+	public static final Sprite player_backward2 = new Sprite(SpriteSheet.TANK_SHEET, 1, 2 , 16, 16, 1);
+	public static final Sprite player_backward3 = new Sprite(SpriteSheet.TANK_SHEET, 2, 2 , 16, 16, 1);
+	
+	public static final Sprite player_left1 = new Sprite(SpriteSheet.TANK_SHEET, 0, 3 , 16, 16, 1);
+	public static final Sprite player_left2 = new Sprite(SpriteSheet.TANK_SHEET, 1, 3 , 16, 16, 1);
+	public static final Sprite player_left3 = new Sprite(SpriteSheet.TANK_SHEET, 2, 3 , 16, 16, 1);
 //	public static final Sprite player_backward1 = new Sprite[3];
 //	public static final Sprite player_right1 = new Sprite[3];
 //	public static final Sprite player_left1 = new Sprite[3];
