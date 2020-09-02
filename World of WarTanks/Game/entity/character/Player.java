@@ -1,41 +1,37 @@
 package Game.entity.character;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import Game.Window;
+import Game.entity.projectile.Projectile;
 import Game.graphics.Sprite;
 import Game.inputs.Keyboard;
+import Game.inputs.Mouse;
 import Game.level.Level;
 
 public class Player extends Charact {
 	private int anim = 0;
 	private int index = 0;
-	private Sprite[] player_forward = new Sprite[3];
-	private Sprite[] player_backward = new Sprite[3];
-	private Sprite[] player_right = new Sprite[3];
-	private Sprite[] player_left = new Sprite[3];
+	private int rate = 0;
 	
-	///Coordinates Format, (Tile base). 
-	public Player(Level level, Sprite sprite, int xCoord, int yCoord) {
+	private Sprite[] player_animation = null;
+	private int spriteRows;
+	private int spriteColumns;
+	
+	private Projectile projectile = null;
+	private Mouse mouse = null;
+	
+	private List<Projectile> projectiles = new ArrayList<Projectile>();
+	
+	public Player(Level level, int xCoord, int yCoord, int spriteColumns, int spriteRows) {///more functional constructor that allows the player to create his own sprites and then add them to the player_animation array
 		this.x = xCoord * 48 ;
 		this.y = yCoord * 48 ;
-		this.sprite = sprite;
 		this.level = level;
 		this.level.shift(this.x, this.y);
-		
-		player_forward[2]= Sprite.player_forward1;
-		player_forward[1]= Sprite.player_forward2;
-		player_forward[0]= Sprite.player_forward3;
-		
-		player_right[2] = Sprite.player_right1;
-		player_right[1] = Sprite.player_right2;
-		player_right[0] = Sprite.player_right3;
-		
-		player_left[2] = Sprite.player_left1;
-		player_left[1] = Sprite.player_left2;
-		player_left[0] = Sprite.player_left3;
-		
-		player_backward[2] = Sprite.player_backward1;
-		player_backward[1] = Sprite.player_backward2;
-		player_backward[0] = Sprite.player_backward3;
+		this.player_animation = new Sprite[spriteRows * spriteColumns];
+		this.spriteRows = spriteRows;
+		this.spriteColumns = spriteColumns;
 	}
 	
 	
@@ -59,43 +55,110 @@ public class Player extends Charact {
 		this.move(nx,0);
 		this.move(0,ny);
 		
-		
 		this.updateAnimation();
+		this.shoot();
 		
+		for(int i = 0; i < this.projectiles.size() ; i++) {
+			if(this.projectiles.get(i).isRemoved()) this.projectiles.remove(i);
+			else this.projectiles.get(i).update();
+		}
 		
 		anim++;
 	}
 	
+	
+	
+	
 	public void render() {
 		this.level.renderCharacter(this);
+		for(int i = 0; i < this.projectiles.size() ; i++) {
+			this.projectiles.get(i).render();
+		}
 	}
 	
 	
-///Update movement animation functionality
+/// Functions called in the update method
 	private void updateAnimation(){
-		if( dir == Direction.N) {
-			if(anim % 10 == 0) {
-				this.sprite = player_forward[index % 3];
-				index++;
+		if( player_animation != null ) {
+			if( dir == Direction.N) {
+				if(anim % 10 == 0) {
+					this.sprite = player_animation[index % this.spriteColumns + this.spriteColumns * 0];
+					index++;
+				}
 			}
-		}
-		if( dir == Direction.S) {
-			if(anim % 10 == 0) {
-				this.sprite = player_backward[index % 3];
-				index++;
+			if( dir == Direction.S) {
+				if(anim % 10 == 0) {
+					this.sprite = player_animation[index % this.spriteColumns + this.spriteColumns * 1];
+					index++;
+				}
 			}
-		}
-		if( dir == Direction.E) {
-			if(anim % 10 == 0) {
-				this.sprite = player_right[index % 3];
-				index++;
+			if( dir == Direction.E) {
+				if(anim % 10 == 0) {
+					this.sprite = player_animation[index % this.spriteColumns + this.spriteColumns * 2];
+					index++;
+				}
 			}
-		}
-		if( dir == Direction.W) {
-			if(anim % 10 == 0) {
-				this.sprite = player_left[index % 3];
-				index++;
+			if( dir == Direction.W) {
+				if(anim % 10 == 0) {
+					this.sprite = player_animation[index % this.spriteColumns + this.spriteColumns * 3];
+					index++;
+				}
 			}
+		}else {
+			System.out.println("There is no Animation Array to update and render");
 		}
 	}
+	
+	private void shoot() {
+		if(this.mouse != null && this.projectile != null) {
+			if(rate % this.projectile.getFireRate() == 0) {
+				///creating projectile
+				// getting the ratio of the fire rate 
+				double dy = (double ) (this.mouse.y - this.level.getCanvasHeight() / 2);
+				double dx = (double ) (this.mouse.x - this.level.getCanvasWidth() / 2);
+				
+				double angle = Math.atan2(dy, dx);
+				
+				this.projectiles.add(new Projectile(this.x , this.y , Math.cos(angle) , Math.sin(angle), this.projectile) );
+				//System.out.println(Math.cos(angle) + ", " + Math.sin(angle));
+				
+			}
+			rate++;
+		}else rate = 0;
+	}
+
+	
+	
+///setting things functionality
+	private int rows = 0;
+	
+	public void addSpriteRow(Sprite[] sprite) {
+		
+		if(sprite.length > 3) {System.out.println("Enter please sprites as the number of columns you have entered!");return;}
+		if(rows < this.spriteRows) {
+			for(int i = 0 ; i < this.spriteColumns ; i++) {
+				this.player_animation[i + rows* this.spriteColumns] = sprite[i];
+			}
+			this.sprite = this.player_animation[0];
+			rows++;
+		}else {
+			System.out.println("You have exceeded the sprites Limit that you have entered");
+		}
+	}
+
+	
+	public void setProjectile(Projectile projectile) {
+		this.projectile = projectile;
+	}
+	
+	
+///recieving shoot projectile order from level
+	public void setMouse(Mouse m) {
+		this.mouse = m;
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
 }
+

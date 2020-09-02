@@ -36,7 +36,7 @@ public class GamePanel extends JPanel implements MouseListener{
 		this.setBackground(Color.DARK_GRAY);
 		addMouseListener(this);
 		this.setBorder(BorderFactory.createLineBorder(Color.gray));
-		this.setMaximumSize(new Dimension(width, height));
+		//this.setMaximumSize(new Dimension(width, height));
 		this.setBounds(0, 0, width, height);	
 	}
 	
@@ -57,7 +57,8 @@ public class GamePanel extends JPanel implements MouseListener{
 /// More functionality:-
 	public void createCanvasComponent() { ///Adding a full canvas upon the jpanel component
 		this.canvas = new GameCanvas(this.width, this.height);
-		this.canvas.addMouseListener(this);
+		this.canvas.addMouseListener(this.canvas);
+		this.canvas.addMouseMotionListener(this.canvas);
 		this.removeMouseListener(this);
 		this.add(canvas);
 		this.setLayout(new GridLayout());

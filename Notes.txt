@@ -27,6 +27,11 @@ Log 11:
 	Added animation functioniality to the Player. which looks cool and precise.
 		: I need to change the player to an animated player and make the user enter an array of sprites to the player.
 
+Log 12:
+	Added Projectile classes and projectile functionalities
+	Added the shooting functionality (transforming the shooting coordinates into an angle then using the sin and cos to get the ratio of the angle -since always hypothunus = 1- so the cos and sin will give us the ratio of the angle)
+
+
 Future Plan:
 Done	Creating Sprite class to handle specific sprites, and maybe creating an independent Tile class which represents the sprite.
 Done 	Creating a level class which allows you to create you own level design. The design can be taken from an image file.

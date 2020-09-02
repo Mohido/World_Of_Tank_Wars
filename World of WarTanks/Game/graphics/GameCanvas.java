@@ -4,13 +4,16 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
 import Game.level.Level;
 
-public class GameCanvas extends Canvas {
+public class GameCanvas extends Canvas implements MouseListener, MouseMotionListener {
 
 	/**
 	 * 
@@ -93,4 +96,58 @@ public class GameCanvas extends Canvas {
 	
 	public int getWidth() {return this.width;}
 	public int geHeight() {return this.height;}
+
+
+	
+	
+	
+	
+///Mouse functional events
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		//this.level.mousePressed(e.getX() , e.getY(), e.getButton());
+	}
+
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		this.level.mousePressed(e.getX() , e.getY(), e.getButton());
+	}
+
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		this.level.mouseReleased();
+	}
+
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+		this.level.mousePressed(e.getX() , e.getY(), e.getButton());
+	}
+
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		// TODO Auto-generated method stub
+		//this.level.mousePressed(e.getX() , e.getY(), e.getButton());
+	}
 }

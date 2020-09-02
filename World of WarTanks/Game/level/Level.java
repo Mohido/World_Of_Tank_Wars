@@ -1,5 +1,6 @@
 package Game.level;
 
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -10,14 +11,18 @@ import Game.Window;
 import Game.entity.Entity;
 import Game.entity.character.Charact;
 import Game.entity.character.Player;
+import Game.entity.projectile.Projectile;
 import Game.graphics.GameCanvas;
 import Game.graphics.Sprite;
 import Game.graphics.Tile;
 import Game.inputs.Keyboard;
+import Game.inputs.Mouse;
 
 public class Level {
 	private int xShift, yShift;
 	private int width , height, size;
+	
+
 	private int[] map;
 	private BufferedImage mapImage;
 	GameCanvas canvas = null;
@@ -93,6 +98,8 @@ public class Level {
 	public void renderCharacter(Charact character ) {
 		Sprite temp = character.getSprite();
 		
+		
+		///Simply: 
 		for(int y = 0; y < temp.getHeight() * 3; y++) {
 			int ya = character.getY() + y - yShift;
 			for(int x = 0 ; x < temp.getWidth() * 3 ; x++) {
@@ -139,5 +146,40 @@ public class Level {
 	public void setPlayer(Player player) {
 		this.hero = player;
 	}
+
+	public void renderProjectile(int x , int y ,Projectile projectile) {
+		// TODO Auto-generated method stub
+		//System.out.println(projectile.getSprite().getHeight() );
+		for(int yp = 0; yp < projectile.getSprite().getHeight() * 3 ; yp++) {
+			int ya = y + yp - yShift;
+			for(int xp = 0 ; xp < projectile.getSprite().getWidth() * 3; xp++) {
+				int xa = x + xp - xShift;
+				if( ya <= 0 || ya >= this.canvas.geHeight() || xa <= 0 || xa >= this.canvas.getWidth() || (projectile.getSprite().getPixels()[xp / 3 + (yp / 3) * projectile.getSprite().getWidth()] == 0xffff00ff) ) continue;
+				this.canvas.pixels[xa + ya * this.canvas.getWidth()] = projectile.getSprite().getPixels()[xp/3 + (yp/3) * projectile.getSprite().getWidth()];
+			}
+		}
+	}
+
 	
+	
+///Mouse functionality
+	public void mousePressed(int x, int y, int button) {
+		// TODO Auto-generated method stub
+		this.hero.setMouse(new Mouse(x, y, button));
+	}
+
+	public void mouseReleased() {
+		// TODO Auto-generated method stub
+		this.hero.setMouse(null);
+	}
+	
+
+	
+	public int getCanvasWidth() {
+		return this.canvas.getWidth();
+	}
+
+	public int getCanvasHeight() {
+		return this.canvas.getHeight();
+	}
 }

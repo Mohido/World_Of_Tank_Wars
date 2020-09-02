@@ -7,8 +7,10 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import Game.entity.character.Player;
+import Game.entity.projectile.Projectile;
 import Game.graphics.GamePanel;
 import Game.graphics.Sprite;
+import Game.graphics.SpriteSheet;
 import Game.inputs.Keyboard;
 import Game.level.Level;
 
@@ -142,18 +144,41 @@ public class Window implements Runnable{
 
 ///____________________________ MAIN
 	public static void main(String[] args) {
-		int game_width = 500;
-		Level level = new Level("../res/Sample_Level.png");
-		
-		
 		Window w = new Window();
+		
+		int game_width = 500;
+		
 		GamePanel game = new GamePanel(game_width , HEIGHT);
 		GamePanel ui = new GamePanel(WIDTH - game_width , HEIGHT);
 		
 		game.createCanvasComponent();
-		game.setLevel(level);
-		game.setPlayer(new Player(level, Sprite.player_forward1, 10 ,15));
 		
+		Level level = new Level("../res/Sample_Level.png");
+		game.setLevel(level);
+		
+		Player player = new Player(level, 10 ,15, 3, 4);
+		Sprite[] forward = new Sprite[3];
+		Sprite[] backward = new Sprite[3];
+		Sprite[] right = new Sprite[3];
+		Sprite[] left = new Sprite[3];
+		int count = 0;
+		for(int i = 2 ; i >= 0 ; i--) {
+			forward[i] = new Sprite(SpriteSheet.TANK_SHEET, count, 0, 16, 16, 1);
+			backward[i] = new Sprite(SpriteSheet.TANK_SHEET, count, 2, 16, 16, 1);
+			right[i] = new Sprite(SpriteSheet.TANK_SHEET, count, 1, 16, 16, 1);
+			left[i] = new Sprite(SpriteSheet.TANK_SHEET, count, 3, 16, 16, 1);
+			count++;
+		}
+		
+		///When setting a sprite: Make sure to make it in the following seequence: UP -> DOWN -> RIGHT -> LEFT
+		player.addSpriteRow(forward);
+		player.addSpriteRow(backward);
+		player.addSpriteRow(right);
+		player.addSpriteRow(left);
+		
+		player.setProjectile(new Projectile(1000, 10, 15, 12, forward[0], level));
+		
+		game.setPlayer(player);
 		w.addComponent(game, BorderLayout.WEST);
 		w.addComponent(ui, BorderLayout.EAST);
 		
