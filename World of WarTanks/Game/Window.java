@@ -176,7 +176,7 @@ public class Window implements Runnable{
 		player.addSpriteRow(right);
 		player.addSpriteRow(left);
 		
-		player.setProjectile(new Projectile(1000, 10, 15, 12, forward[0], level));
+		player.setProjectile(new Projectile(100, 5, 15, 10, new Sprite(new SpriteSheet("../res/Projectiles.png"), 0, 0, 16, 16, 3), level));
 		
 		game.setPlayer(player);
 		w.addComponent(game, BorderLayout.WEST);

@@ -4,6 +4,8 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -11,6 +13,8 @@ import Game.Window;
 import Game.entity.Entity;
 import Game.entity.character.Charact;
 import Game.entity.character.Player;
+import Game.entity.explosion.Explosion;
+import Game.entity.particles.Particle;
 import Game.entity.projectile.Projectile;
 import Game.graphics.GameCanvas;
 import Game.graphics.Sprite;
@@ -28,6 +32,8 @@ public class Level {
 	GameCanvas canvas = null;
 	
 	private Player hero;
+	private List<Particle> particles = new ArrayList<Particle>();
+	private List<Explosion> explosions = new ArrayList<Explosion>();
 	//private List<NPC> npc;
 	
 	public Level(String path) {
@@ -50,11 +56,25 @@ public class Level {
 /// ________ Game Loop
 	public void update() {
 		hero.update();
+		
+		for(int i = 0 ; i < this.particles.size() ; i++) {
+			if(this.particles.get(i).isRemoved()) this.particles.remove(i);
+			else this.particles.get(i).update();
+		}
+		
+		for(int i = 0 ; i < this.explosions.size() ; i++) {
+			if(this.explosions.get(i).isRemoved()) this.explosions.remove(i);
+			else this.explosions.get(i).update();
+		}
 	}
 	
 	public void render() {
 		renderTiles();
 		hero.render();
+		
+
+		for(int i = 0 ; i < this.particles.size(); i++) this.particles.get(i).render();
+		for(int i = 0 ; i < this.explosions.size(); i++) this.explosions.get(i).render();
 	}
 	
 	
@@ -66,19 +86,6 @@ public class Level {
 				getTile(x + xShift/48, y + yShift / 48).renderTile(this, x * 48 - xShift % 48 , y * 48 - yShift % 48);
 			}
 		}
-	}
-	
-	public Tile getTile(int x , int y) {
-		if(x >= this.width || y >= this.height || x < 0 || y < 0) return Tile.water;
-		if(map[x + y * this.width] == 0xffa4ff00) return Tile.flower_grass1;
-		if(map[x + y * this.width] == 0xff3b612f) return Tile.flower_grass2;
-		if(map[x + y * this.width] == 0xffd1ff00) return Tile.wall1;
-		if(map[x + y * this.width] == 0xff00083e) return Tile.wall2;
-		if(map[x + y * this.width] == 0xff06ff00) return Tile.grass;
-		if(map[x + y * this.width] == 0xff1bd8c6) return Tile.water;
-		if(map[x + y * this.width] == 0xff76683d) return Tile.mud1;
-		if(map[x + y * this.width] == 0xff430505) return Tile.mud2;
-		return Tile.water;
 	}
 	
 	
@@ -147,7 +154,7 @@ public class Level {
 		this.hero = player;
 	}
 
-	public void renderProjectile(int x , int y ,Projectile projectile) {
+	public void renderEntity(int x , int y , Entity projectile) {
 		// TODO Auto-generated method stub
 		//System.out.println(projectile.getSprite().getHeight() );
 		for(int yp = 0; yp < projectile.getSprite().getHeight() * 3 ; yp++) {
@@ -166,6 +173,7 @@ public class Level {
 	public void mousePressed(int x, int y, int button) {
 		// TODO Auto-generated method stub
 		this.hero.setMouse(new Mouse(x, y, button));
+		
 	}
 
 	public void mouseReleased() {
@@ -182,4 +190,27 @@ public class Level {
 	public int getCanvasHeight() {
 		return this.canvas.getHeight();
 	}
+	public Tile getTile(int x , int y) {
+		if(x >= this.width || y >= this.height || x < 0 || y < 0) return Tile.water;
+		if(map[x + y * this.width] == 0xffa4ff00) return Tile.flower_grass1;
+		if(map[x + y * this.width] == 0xff3b612f) return Tile.flower_grass2;
+		if(map[x + y * this.width] == 0xffd1ff00) return Tile.wall1;
+		if(map[x + y * this.width] == 0xff00083e) return Tile.wall2;
+		if(map[x + y * this.width] == 0xff06ff00) return Tile.grass;
+		if(map[x + y * this.width] == 0xff1bd8c6) return Tile.water;
+		if(map[x + y * this.width] == 0xff76683d) return Tile.mud1;
+		if(map[x + y * this.width] == 0xff430505) return Tile.mud2;
+		return Tile.water;
+	}
+
+	public void addParticle(Particle particle) {
+		// TODO Auto-generated method stub
+		this.particles.add(particle);
+	}
+
+	public void addExplosion(Explosion explosion) {
+		// TODO Auto-generated method stub
+		this.explosions.add(explosion);
+	}
+	
 }

@@ -9,6 +9,7 @@ public class Charact extends Entity {
 	}
 	
 	protected Direction dir = null;
+	protected int health;
 	
 	public void move(int x, int y) {
 		if(this.level.checkCollision(this.x + x, this.y + y, this) == false) {

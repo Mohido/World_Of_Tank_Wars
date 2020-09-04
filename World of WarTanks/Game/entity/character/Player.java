@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Game.Window;
+import Game.entity.explosion.ExplosionCreator;
+import Game.entity.particles.ParticleCreator;
 import Game.entity.projectile.Projectile;
 import Game.graphics.Sprite;
+import Game.graphics.SpriteSheet;
 import Game.inputs.Keyboard;
 import Game.inputs.Mouse;
 import Game.level.Level;
@@ -15,26 +18,34 @@ public class Player extends Charact {
 	private int index = 0;
 	private int rate = 0;
 	
+	
+	///sprite animations of moving
 	private Sprite[] player_animation = null;
 	private int spriteRows;
 	private int spriteColumns;
 	
+	///Projectiles and explosion creator and handling
 	private Projectile projectile = null;
 	private Mouse mouse = null;
+	private Sprite explosionSprite = new Sprite(new SpriteSheet("../res/Explosion.png"), 0, 0, 16 ,16, 3);
 	
 	private List<Projectile> projectiles = new ArrayList<Projectile>();
 	
+///____________________ Constructor
 	public Player(Level level, int xCoord, int yCoord, int spriteColumns, int spriteRows) {///more functional constructor that allows the player to create his own sprites and then add them to the player_animation array
 		this.x = xCoord * 48 ;
 		this.y = yCoord * 48 ;
 		this.level = level;
 		this.level.shift(this.x, this.y);
+		
 		this.player_animation = new Sprite[spriteRows * spriteColumns];
 		this.spriteRows = spriteRows;
 		this.spriteColumns = spriteColumns;
+		
+		this.health = 100;
 	}
 	
-	
+/// __________________ update and rendering functions
 	public void update() {
 		int nx = 0, ny = 0;
 		if(Window.keyboard.pressedKeys[Keyboard.A]) {
@@ -50,25 +61,16 @@ public class Player extends Charact {
 			ny++;
 		}
 		
-		
 		if(this.level.checkCollision(this.x + nx, this.y + ny, this) == true || (nx == 0 && ny == 0)) dir = null;
 		this.move(nx,0);
 		this.move(0,ny);
 		
 		this.updateAnimation();
 		this.shoot();
-		
-		for(int i = 0; i < this.projectiles.size() ; i++) {
-			if(this.projectiles.get(i).isRemoved()) this.projectiles.remove(i);
-			else this.projectiles.get(i).update();
-		}
-		
+		this.updateProjectiles();
 		anim++;
 	}
-	
-	
-	
-	
+
 	public void render() {
 		this.level.renderCharacter(this);
 		for(int i = 0; i < this.projectiles.size() ; i++) {
@@ -77,7 +79,7 @@ public class Player extends Charact {
 	}
 	
 	
-/// Functions called in the update method
+/// _________________ Functions called in the update method
 	private void updateAnimation(){
 		if( player_animation != null ) {
 			if( dir == Direction.N) {
@@ -124,10 +126,26 @@ public class Player extends Charact {
 				
 			}
 			rate++;
-		}else rate = 0;
+		}
 	}
 
-	
+	private void updateProjectiles() {
+	// TODO Auto-generated method stub
+		for(int i = 0; i < this.projectiles.size() ; i++) {
+			if(this.projectiles.get(i).isRemoved()) {
+				ParticleCreator p = new ParticleCreator(this.projectiles.get(i).getX() + 3*this.projectile.getSprite().getWidth()/2,
+														this.projectiles.get(i).getY() + 3 * this.projectile.getSprite().getHeight() / 2,
+														100 , 45,
+														new Sprite(1, 1, 0xfff000),
+														this.level, 4);
+//				ExplosionCreator e = new ExplosionCreator(this.projectiles.get(i).getX(),
+//														  this.projectiles.get(i).getY(),
+//														  30, this.explosionSprite, this.level);
+				this.projectiles.remove(i);
+			}
+			else this.projectiles.get(i).update();
+		}
+	}
 	
 ///setting things functionality
 	private int rows = 0;
@@ -156,6 +174,12 @@ public class Player extends Charact {
 	public void setMouse(Mouse m) {
 		this.mouse = m;
 		// TODO Auto-generated method stub
+		
+		if( this.mouse != null && this.projectile != null) {
+			int range = (int) Math.sqrt( (m.x - level.getCanvasWidth()/2)*(m.x - level.getCanvasWidth()/2)
+					  + (m.y - level.getCanvasHeight()/2)*(m.y - level.getCanvasHeight()/2) );
+			this.projectile.setRange(range);
+		}
 		
 	}
 	

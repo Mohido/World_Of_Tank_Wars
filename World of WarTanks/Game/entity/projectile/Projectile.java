@@ -8,7 +8,7 @@ public class Projectile extends Entity{
 	double x, y;
 	final double dx, dy;
 	final int speed;
-	final double range;
+	double range;
 	final int damage, xOrigin, yOrigin;
 	final int rateOfFire;
 	
@@ -43,8 +43,8 @@ public class Projectile extends Entity{
 		this.y = y;
 		xOrigin = x;
 		yOrigin = y;
-		this.dx = dx * proj.speed;
-		this.dy = dy * proj.speed;
+		this.dx = dx;
+		this.dy = dy;
 		this.level = proj.level;
 		this.speed = proj.speed; 
 		this.damage = proj.damage;
@@ -55,16 +55,21 @@ public class Projectile extends Entity{
 	
 	
 	public void update(){
-		if(!this.level.checkCollision( (int)(this.x + this.dx) , (int)(this.y + this.dy), this)) {
-			if(getCurrentDistance() < this.range) this.move();
-			//else
-		}else {
-			this.remove();
+		for(int i = 0 ; i < this.speed ; i++) {
+			
+			if(!this.level.checkCollision( (int)(this.x + this.dx*i), (int)(this.y + this.dy*i), this)) {	
+				if(getCurrentDistance() < this.range) this.move();
+				else {
+					this.remove(); //adding an explosion after the removed entity and checking enemies collision!
+				}
+			}else {
+				this.remove();
+			}
 		}
 	}
-	 
+	
 	public void render() {
-		this.level.renderProjectile((int)x , (int)y ,this);
+		this.level.renderEntity((int)x , (int)y ,this);
 	}
 	
 /// more internal functionality
@@ -81,4 +86,7 @@ public class Projectile extends Entity{
 	
 	public int getFireRate() {return this.rateOfFire;}
 	
+	public void setRange(int range) { this.range = range;}
+	public int getX() { return (int)x;}
+	public int getY() { return (int)y;}
 }

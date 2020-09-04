@@ -57,7 +57,13 @@ public class Sprite {
 		this.pixels = new int[this.width * this.height];
 		sheet.crop(xCoordinates * SpriteSheet.PIXELS_PER_TILE, yCoordinates * SpriteSheet.PIXELS_PER_TILE, width, height, pixels);		
 	}
-	
+	public Sprite(int width, int height, int color) {
+		this.width = width;
+		this.height = height;
+		this.bgBorderWidth = 0;
+		this.pixels = new int [this.width * this.height];
+		for(int i = 0 ; i < width*height; i++) pixels[i] = color;
+	}
 	
 	
 	public int[] getPixels() {return pixels;}
