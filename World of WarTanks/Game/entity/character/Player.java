@@ -27,7 +27,7 @@ public class Player extends Charact {
 	///Projectiles and explosion creator and handling
 	private Projectile projectile = null;
 	private Mouse mouse = null;
-	private Sprite explosionSprite = new Sprite(new SpriteSheet("../res/Explosion.png"), 0, 0, 16 ,16, 3);
+	//private Sprite explosionSprite = new Sprite(new SpriteSheet("../res/Explosion.png"), 0, 0, 16 ,16, 3);
 	
 	private List<Projectile> projectiles = new ArrayList<Projectile>();
 	
@@ -61,7 +61,9 @@ public class Player extends Charact {
 			ny++;
 		}
 		
-		if(this.level.checkCollision(this.x + nx, this.y + ny, this) == true || (nx == 0 && ny == 0)) dir = null;
+		if( this.level.checkCollision(this.x + nx, this.y + ny, this) == true ||
+				this.level.checkCollisionNPC(this.x + nx, this.y + ny, this) == true ||
+				(nx == 0 && ny == 0)) dir = null;
 		this.move(nx,0);
 		this.move(0,ny);
 		

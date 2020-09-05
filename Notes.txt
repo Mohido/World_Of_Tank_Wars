@@ -35,6 +35,11 @@ Log 13:
 	Added Particles with particle Wall collision physics. The particles are created by a class called ParticleCreator.
 	Added a sprite constructor to make it available to create only color sprites.
 
+Log 14:
+	Added a Foe class which extends Character and is mostly like player class but does not have a mouse listener.
+	Added a checkCollisionNPC() method to the Level class which will check all of the Foes collision when they reach a specific area and are visible.
+	Player now can check collision with other NPCs!
+
 Future Plan:
 Done	Creating Sprite class to handle specific sprites, and maybe creating an independent Tile class which represents the sprite.
 Done 	Creating a level class which allows you to create you own level design. The design can be taken from an image file.

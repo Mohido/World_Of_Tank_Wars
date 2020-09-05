@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 import Game.Window;
 import Game.entity.Entity;
 import Game.entity.character.Charact;
+import Game.entity.character.Foe;
 import Game.entity.character.Player;
 import Game.entity.explosion.Explosion;
 import Game.entity.particles.Particle;
@@ -34,7 +35,7 @@ public class Level {
 	private Player hero;
 	private List<Particle> particles = new ArrayList<Particle>();
 	private List<Explosion> explosions = new ArrayList<Explosion>();
-	//private List<NPC> npc;
+	private List<Foe> foes = new ArrayList<Foe>();
 	
 	public Level(String path) {
 		try {
@@ -65,7 +66,11 @@ public class Level {
 		for(int i = 0 ; i < this.explosions.size() ; i++) {
 			if(this.explosions.get(i).isRemoved()) this.explosions.remove(i);
 			else this.explosions.get(i).update();
-		}
+		} 
+		
+		for(int i = 0 ; i < this.foes.size() ; i++) {
+			this.foes.get(i).update();
+		} 
 	}
 	
 	public void render() {
@@ -75,12 +80,13 @@ public class Level {
 
 		for(int i = 0 ; i < this.particles.size(); i++) this.particles.get(i).render();
 		for(int i = 0 ; i < this.explosions.size(); i++) this.explosions.get(i).render();
+		for(int i = 0 ; i < this.foes.size() ; i++) {this.foes.get(i).render();} 
 	}
 	
 	
 /// ____ rendering Tiles functionality
 	
-	public void renderTiles() {
+	private void renderTiles() {
 		for(int y = 0 - canvas.getHeight() / 48 ; y <= (canvas.getHeight() + 48) / 48 ; y++) {
 			for(int x = 0 - canvas.getWidth() / 48; x <= (canvas.getWidth() + 48) / 48; x++) {
 				getTile(x + xShift/48, y + yShift / 48).renderTile(this, x * 48 - xShift % 48 , y * 48 - yShift % 48);
@@ -142,7 +148,54 @@ public class Level {
 		
 		return false;
 	}
-	
+	public boolean checkCollisionNPC(int x, int y, Entity e) {
+		Sprite s;
+		int fx , fy;
+		for(int i = 0 ; i < this.foes.size() ; i++) {
+			
+			s = this.foes.get(i).getSprite();
+			fx = this.foes.get(i).getX(); fy = this.foes.get(i).getY();
+			if(!this.foes.get(i).isVisible() || 
+					( Math.abs(x - fx) > e.getSprite().getWidth()*3 && Math.abs(y - fy) > e.getSprite().getHeight()*3 ) ) 
+				continue;
+			
+			//top left collision
+			if( fx + s.getBorderWidth() * 3 <= x + e.getSprite().getBorderWidth() * 3 && x + e.getSprite().getBorderWidth() * 3 <= fx + s.getWidth()*3 - s.getBorderWidth() * 3 
+			&& fy + s.getBorderWidth() * 3 <= y + e.getSprite().getBorderWidth() * 3 && y + e.getSprite().getBorderWidth() * 3 <= fy + s.getHeight()*3 - s.getBorderWidth() * 3) return true; 
+			//top right collision
+			if( fx + s.getBorderWidth() * 3 <= x + e.getSprite().getWidth()*3 - e.getSprite().getBorderWidth() * 3 && x + e.getSprite().getWidth()*3 - e.getSprite().getBorderWidth() * 3 <= fx + s.getWidth()*3 - s.getBorderWidth() * 3 
+					&& fy + s.getBorderWidth() * 3 <= y + e.getSprite().getBorderWidth() * 3 && y + e.getSprite().getBorderWidth() * 3 <= fy + s.getHeight()*3 - s.getBorderWidth() * 3) return true; 
+			//bottom left collision
+			if( fx + s.getBorderWidth() * 3 <= x + e.getSprite().getBorderWidth() * 3 && x + e.getSprite().getBorderWidth() * 3 <= fx + s.getWidth()*3 - s.getBorderWidth() * 3 
+					&& fy + s.getBorderWidth() * 3 <= y + e.getSprite().getHeight()*3 - e.getSprite().getBorderWidth()*3 && y + e.getSprite().getHeight()*3 - e.getSprite().getBorderWidth()*3 <= fy + s.getHeight()*3 - s.getBorderWidth() * 3) return true; 
+			//bottom right collision
+			if( fx + s.getBorderWidth() * 3 <= x + e.getSprite().getWidth()*3 - e.getSprite().getBorderWidth() * 3 && x + e.getSprite().getWidth()*3 - e.getSprite().getBorderWidth() * 3 <= fx + s.getWidth()*3 - s.getBorderWidth() * 3 
+					&& fy + s.getBorderWidth() * 3 <= y + e.getSprite().getHeight()*3 - e.getSprite().getBorderWidth()*3 && y + e.getSprite().getHeight()*3 - e.getSprite().getBorderWidth()*3 <= fy + s.getHeight()*3 - s.getBorderWidth() * 3) return true; 
+					
+			///__________________ checking the opposite ( the npc to the entity ) ____________
+			//top left collision
+			if( x + e.getSprite().getBorderWidth()*3 <= fx + s.getBorderWidth()*3
+					&&  fx + s.getBorderWidth()*3 <=  x + e.getSprite().getWidth()*3 - e.getSprite().getBorderWidth()*3
+			&&  y + e.getSprite().getBorderWidth()*3 <= fy + s.getBorderWidth()*3
+					&& fy + s.getBorderWidth()*3 <= y + e.getSprite().getHeight()*3 - e.getSprite().getBorderWidth()*3) return true; 
+			//top right collision
+			if( x + e.getSprite().getBorderWidth()*3 <= fx + s.getWidth()*3 - s.getBorderWidth()*3
+					&&  fx + s.getWidth()*3 - s.getBorderWidth()*3 <=  x + e.getSprite().getWidth()*3 - e.getSprite().getBorderWidth()*3
+			&&  y + e.getSprite().getBorderWidth()*3 <= fy + s.getBorderWidth()*3
+					&& fy + s.getBorderWidth()*3 <= y + e.getSprite().getHeight()*3 - e.getSprite().getBorderWidth()*3) return true; 
+			//bottom left collision
+			if( x + e.getSprite().getBorderWidth()*3 <= fx + s.getBorderWidth()*3
+					&&  fx + s.getBorderWidth()*3 <=  x + e.getSprite().getWidth()*3 - e.getSprite().getBorderWidth()*3
+			&&  y + e.getSprite().getBorderWidth()*3 <= fy + s.getHeight()*3 - s.getBorderWidth()*3
+					&& fy + s.getHeight()*3 - s.getBorderWidth()*3 <= y + e.getSprite().getHeight()*3 - e.getSprite().getBorderWidth()*3) return true; 
+			//bottom right collision
+			if( x + e.getSprite().getBorderWidth()*3 <= fx + s.getWidth()*3 - s.getBorderWidth()*3
+					&&  fx + s.getWidth()*3 - s.getBorderWidth()*3 <=  x + e.getSprite().getWidth()*3 - e.getSprite().getBorderWidth()*3
+			&&  y + e.getSprite().getBorderWidth()*3 <= fy + s.getHeight()*3 - s.getBorderWidth()*3
+					&& fy + s.getHeight()*3 - s.getBorderWidth()*3 <= y + e.getSprite().getHeight()*3 - e.getSprite().getBorderWidth()*3) return true; 
+		}
+		return false;
+	}
 	
 ///Engine functionality___ once we set the canvas we make it centralised so the Player sets in the middle of the player
 	public void setCanvas(GameCanvas gameCanvas) {
@@ -181,7 +234,8 @@ public class Level {
 		this.hero.setMouse(null);
 	}
 	
-
+	public int getX() {return this.xShift;}
+	public int getY() {return this.yShift;}
 	
 	public int getCanvasWidth() {
 		return this.canvas.getWidth();
@@ -211,6 +265,11 @@ public class Level {
 	public void addExplosion(Explosion explosion) {
 		// TODO Auto-generated method stub
 		this.explosions.add(explosion);
+	}
+
+	public void addFoe(Foe foe) {
+		// TODO Auto-generated method stub
+		this.foes.add(foe);
 	}
 	
 }

@@ -12,7 +12,7 @@ public class Charact extends Entity {
 	protected int health;
 	
 	public void move(int x, int y) {
-		if(this.level.checkCollision(this.x + x, this.y + y, this) == false) {
+		if(this.level.checkCollision(this.x + x, this.y + y, this) == false && this.level.checkCollisionNPC(this.x + x, this.y + y, this) == false) {
 			this.x += x;
 			this.y += y;
 			

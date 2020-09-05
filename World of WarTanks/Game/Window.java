@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
+import Game.entity.character.Foe;
 import Game.entity.character.Player;
 import Game.entity.projectile.Projectile;
 import Game.graphics.GamePanel;
@@ -147,13 +148,12 @@ public class Window implements Runnable{
 		Window w = new Window();
 		
 		int game_width = 500;
+		Level level = new Level("../res/Sample_Level.png");
 		
 		GamePanel game = new GamePanel(game_width , HEIGHT);
 		GamePanel ui = new GamePanel(WIDTH - game_width , HEIGHT);
 		
 		game.createCanvasComponent();
-		
-		Level level = new Level("../res/Sample_Level.png");
 		game.setLevel(level);
 		
 		Player player = new Player(level, 10 ,15, 3, 4);
@@ -169,16 +169,32 @@ public class Window implements Runnable{
 			left[i] = new Sprite(SpriteSheet.TANK_SHEET, count, 3, 16, 16, 1);
 			count++;
 		}
-		
 		///When setting a sprite: Make sure to make it in the following seequence: UP -> DOWN -> RIGHT -> LEFT
 		player.addSpriteRow(forward);
 		player.addSpriteRow(backward);
 		player.addSpriteRow(right);
 		player.addSpriteRow(left);
-		
 		player.setProjectile(new Projectile(100, 5, 15, 10, new Sprite(new SpriteSheet("../res/Projectiles.png"), 0, 0, 16, 16, 3), level));
+	
 		
-		game.setPlayer(player);
+		Foe dumb = new Foe(level, 11 ,14, 3, 4);
+		count = 0;
+		for(int i = 2 ; i >= 0 ; i--) {
+			forward[i] = new Sprite(SpriteSheet.TANK_SHEET_2, count, 0, 16, 16, 2);
+			backward[i] = new Sprite(SpriteSheet.TANK_SHEET_2, count, 2, 16, 16, 2);
+			right[i] = new Sprite(SpriteSheet.TANK_SHEET_2, count, 1, 16, 16, 2);
+			left[i] = new Sprite(SpriteSheet.TANK_SHEET_2, count, 3, 16, 16, 2);
+			count++;
+		}
+		dumb.addSpriteRow(forward);
+		dumb.addSpriteRow(backward);
+		dumb.addSpriteRow(right);
+		dumb.addSpriteRow(left);
+		
+		
+		level.addFoe(dumb);
+		level.setPlayer(player);
+		
 		w.addComponent(game, BorderLayout.WEST);
 		w.addComponent(ui, BorderLayout.EAST);
 		

@@ -17,6 +17,7 @@ public class SpriteSheet {
 	
 	public static final SpriteSheet TILES_SHEET  = new SpriteSheet("../res/Game_Level_Basic_Sheet.png"); ///for the default game (after you r finished with the game edit it to suit the game engine)
 	public static final SpriteSheet TANK_SHEET  = new SpriteSheet("../res/Tank_Sheet.png");
+	public static final SpriteSheet TANK_SHEET_2  = new SpriteSheet("../res/Tank_Sheet_2.png");
 	
 	public SpriteSheet(String path){
 		int[] tempPixels = null;
