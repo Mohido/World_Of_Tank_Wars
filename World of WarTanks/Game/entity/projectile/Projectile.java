@@ -56,13 +56,19 @@ public class Projectile extends Entity{
 	
 	public void update(){
 		for(int i = 0 ; i < this.speed ; i++) {
-			
-			if(!this.level.checkCollision( (int)(this.x + this.dx*i), (int)(this.y + this.dy*i), this)) {	
-				if(getCurrentDistance() < this.range) this.move();
-				else {
-					this.remove(); //adding an explosion after the removed entity and checking enemies collision!
+			if(!this.level.checkCollision( (int)(this.x + this.dx*i), (int)(this.y + this.dy*i), this) ) { 
+				if(!this.level.checkCollisionNPC( (int)(this.x + this.dx*i), (int)(this.y + this.dy*i), this)) {	
+					if(getCurrentDistance() < this.range) this.move();
+					else {
+						this.remove(); //adding an explosion after the removed entity and checking enemies collision!
+					}
+				}else {
+					this.x += this.dx*i;
+					this.y += this.dy*i;
+					this.remove();
 				}
-			}else {
+			}
+			else {
 				this.remove();
 			}
 		}
@@ -83,10 +89,9 @@ public class Projectile extends Entity{
 		double ya = (this.dy + this.y) - this.yOrigin;
 		return Math.sqrt( xa*xa + ya * ya );
 	}
-	
 	public int getFireRate() {return this.rateOfFire;}
-	
 	public void setRange(int range) { this.range = range;}
 	public int getX() { return (int)x;}
 	public int getY() { return (int)y;}
+	public int getDamage() {return this.damage;}
 }

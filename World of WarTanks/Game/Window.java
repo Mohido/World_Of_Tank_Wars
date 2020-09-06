@@ -149,6 +149,10 @@ public class Window implements Runnable{
 		
 		int game_width = 500;
 		Level level = new Level("../res/Sample_Level.png");
+		Projectile normalProj = new Projectile(100, 5, 15, 2,
+				   new Sprite(new SpriteSheet("../res/Pojectiles_Sheet.png"), 0, 0, 16, 16, 3),
+				   level);
+		
 		
 		GamePanel game = new GamePanel(game_width , HEIGHT);
 		GamePanel ui = new GamePanel(WIDTH - game_width , HEIGHT);
@@ -156,7 +160,9 @@ public class Window implements Runnable{
 		game.createCanvasComponent();
 		game.setLevel(level);
 		
-		Player player = new Player(level, 10 ,15, 3, 4);
+		
+		///__________ Player Creation
+		Player player = new Player(level, 10 ,15, 3, 4, 1, 100);
 		Sprite[] forward = new Sprite[3];
 		Sprite[] backward = new Sprite[3];
 		Sprite[] right = new Sprite[3];
@@ -174,10 +180,9 @@ public class Window implements Runnable{
 		player.addSpriteRow(backward);
 		player.addSpriteRow(right);
 		player.addSpriteRow(left);
-		player.setProjectile(new Projectile(100, 5, 15, 10, new Sprite(new SpriteSheet("../res/Projectiles.png"), 0, 0, 16, 16, 3), level));
-	
-		
-		Foe dumb = new Foe(level, 11 ,14, 3, 4);
+		player.setProjectile( normalProj );
+		///____________ Foe creation
+		Foe dumb = new Foe(level, 11 ,14, 3, 4, 1, 20, normalProj );
 		count = 0;
 		for(int i = 2 ; i >= 0 ; i--) {
 			forward[i] = new Sprite(SpriteSheet.TANK_SHEET_2, count, 0, 16, 16, 2);

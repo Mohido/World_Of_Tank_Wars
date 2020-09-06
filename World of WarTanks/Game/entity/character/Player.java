@@ -32,7 +32,7 @@ public class Player extends Charact {
 	private List<Projectile> projectiles = new ArrayList<Projectile>();
 	
 ///____________________ Constructor
-	public Player(Level level, int xCoord, int yCoord, int spriteColumns, int spriteRows) {///more functional constructor that allows the player to create his own sprites and then add them to the player_animation array
+	public Player(Level level, int xCoord, int yCoord, int spriteColumns, int spriteRows, int speed, int health) {///more functional constructor that allows the player to create his own sprites and then add them to the player_animation array
 		this.x = xCoord * 48 ;
 		this.y = yCoord * 48 ;
 		this.level = level;
@@ -41,8 +41,8 @@ public class Player extends Charact {
 		this.player_animation = new Sprite[spriteRows * spriteColumns];
 		this.spriteRows = spriteRows;
 		this.spriteColumns = spriteColumns;
-		
-		this.health = 100;
+		this.speed = speed;
+		this.health = health;
 	}
 	
 /// __________________ update and rendering functions
@@ -60,6 +60,8 @@ public class Player extends Charact {
 		if(Window.keyboard.pressedKeys[Keyboard.S]) {
 			ny++;
 		}
+		nx *= this.speed;
+		ny *= this.speed;
 		
 		if( this.level.checkCollision(this.x + nx, this.y + ny, this) == true ||
 				this.level.checkCollisionNPC(this.x + nx, this.y + ny, this) == true ||
@@ -139,10 +141,8 @@ public class Player extends Charact {
 														this.projectiles.get(i).getY() + 3 * this.projectile.getSprite().getHeight() / 2,
 														100 , 45,
 														new Sprite(1, 1, 0xfff000),
-														this.level, 4);
-//				ExplosionCreator e = new ExplosionCreator(this.projectiles.get(i).getX(),
-//														  this.projectiles.get(i).getY(),
-//														  30, this.explosionSprite, this.level);
+														this.level);
+				
 				this.projectiles.remove(i);
 			}
 			else this.projectiles.get(i).update();
@@ -153,7 +153,6 @@ public class Player extends Charact {
 	private int rows = 0;
 	
 	public void addSpriteRow(Sprite[] sprite) {
-		
 		if(sprite.length > 3) {System.out.println("Enter please sprites as the number of columns you have entered!");return;}
 		if(rows < this.spriteRows) {
 			for(int i = 0 ; i < this.spriteColumns ; i++) {
@@ -171,6 +170,10 @@ public class Player extends Charact {
 		this.projectile = projectile;
 	}
 	
+	public void dealDamage(int damage) {
+		this.health -= damage;
+		if(this.health <= 0) this.remove();
+	}
 	
 ///recieving shoot projectile order from level
 	public void setMouse(Mouse m) {

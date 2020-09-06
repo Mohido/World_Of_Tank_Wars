@@ -14,7 +14,7 @@ public class Particle extends Entity {
 	private Random rand;
 	
 	
-	public Particle(int x, int y, int lifeSpan, Sprite sprite, Level level , int maxSpeed) {
+	public Particle(int x, int y, int lifeSpan, Sprite sprite, Level level) {
 		this.x = x;
 		this.y = y;
 		rand = new Random();
@@ -27,14 +27,20 @@ public class Particle extends Entity {
 	}
 	
 	public void update() {
-		if(span > lifeSpan) this.remove();
-		if( !level.checkCollision( (int)(x + dx),  (int)(y + dy), this) && span < lifeSpan) {
+		if(span > lifeSpan) {
+			this.remove();
+			return;
+		}
+		if( !level.checkCollision( (int)(x + dx),  (int)(y + dy), this) &&
+				!level.checkCollisionNPC( (int)(x + dx),  (int)(y + dy), this)) {
 			this.move(dx , dy);
 			dx *= 0.93;
 			dy *= 0.93;
 		}else {
-			if(level.checkCollision( (int)(x + dx),  (int)(y), this) && span < lifeSpan) dx *= -1;
-			else if(level.checkCollision( (int)(x),  (int)(y + dy), this) && span < lifeSpan) dy *= -1;
+			if(level.checkCollision( (int)(x + dx),  (int)(y), this) ) dx *= -1;
+			if(level.checkCollision( (int)(x),  (int)(y + dy), this)) dy *= -1;
+			if(level.checkCollisionNPC((int)(x),  (int)(y + dy), this)) dy *=-1;
+			if( level.checkCollisionNPC( (int)(x + dx), (int)(y), this) ) dx *= -1;
 		}		
 		span++;
 	}

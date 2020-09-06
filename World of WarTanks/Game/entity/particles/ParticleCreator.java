@@ -9,9 +9,9 @@ import Game.level.Level;
 
 public class ParticleCreator {
 	
-	public ParticleCreator(int x, int y, int amount, int lifeSpan, Sprite sprite, Level level, int maxSpeed) {
+	public ParticleCreator(int x, int y, int amount, int lifeSpan, Sprite sprite, Level level) {
 		for(int i= 0 ; i < amount ; i++) {
-			level.addParticle( new Particle(x,y, lifeSpan, sprite, level , maxSpeed) );
+			level.addParticle( new Particle(x,y, lifeSpan, sprite, level) );
 		}
 	}
 }

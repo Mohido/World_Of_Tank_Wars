@@ -40,13 +40,18 @@ Log 14:
 	Added a checkCollisionNPC() method to the Level class which will check all of the Foes collision when they reach a specific area and are visible.
 	Player now can check collision with other NPCs!
 
+Log 15:
+	Added the collision detection to the particles to deflect from NPC.
+	Added a dealDamage() method to the Charact class to make the characters taking damage by projectiles. It is called in the checkCollisionNPC() method
+	Added some kind of particles explosion after a Foe is destroyed or removed.
+
 Future Plan:
 Done	Creating Sprite class to handle specific sprites, and maybe creating an independent Tile class which represents the sprite.
 Done 	Creating a level class which allows you to create you own level design. The design can be taken from an image file.
 Done 	Fixing the level rendering method and adding more functionality to it. Render Entity, for instance.
-50% 	Adding collision physics and buffs for the Sprite classes. some sprite classes requires special collision detection methods.
+Done 	Adding collision physics and buffs for the Sprite classes. some sprite classes requires special collision detection methods.
 Done	Creating an Entity class to represent the independent objects as player, projectiles and particles.
-	Adding enemies and basic AI.
+50%	Adding enemies and basic AI.
 	Creating a Healthbar an enemies Healthbars.
 	Creating different weapons ( 3 Weapons states ) which can be chosen from the R.H.S panel
 	Creating a Mini-Map which will be a representation of the map.

@@ -69,7 +69,8 @@ public class Level {
 		} 
 		
 		for(int i = 0 ; i < this.foes.size() ; i++) {
-			this.foes.get(i).update();
+			if(this.foes.get(i).isRemoved()) this.foes.remove(i);
+			else this.foes.get(i).update();
 		} 
 	}
 	
@@ -149,6 +150,8 @@ public class Level {
 		return false;
 	}
 	public boolean checkCollisionNPC(int x, int y, Entity e) {
+		boolean collidision = false;
+		
 		Sprite s;
 		int fx , fy;
 		for(int i = 0 ; i < this.foes.size() ; i++) {
@@ -156,45 +159,50 @@ public class Level {
 			s = this.foes.get(i).getSprite();
 			fx = this.foes.get(i).getX(); fy = this.foes.get(i).getY();
 			if(!this.foes.get(i).isVisible() || 
-					( Math.abs(x - fx) > e.getSprite().getWidth()*3 && Math.abs(y - fy) > e.getSprite().getHeight()*3 ) ) 
+					( Math.abs(x - fx) > 48 || Math.abs(y - fy) > 48 ) ) 
 				continue;
-			
+			 
 			//top left collision
 			if( fx + s.getBorderWidth() * 3 <= x + e.getSprite().getBorderWidth() * 3 && x + e.getSprite().getBorderWidth() * 3 <= fx + s.getWidth()*3 - s.getBorderWidth() * 3 
-			&& fy + s.getBorderWidth() * 3 <= y + e.getSprite().getBorderWidth() * 3 && y + e.getSprite().getBorderWidth() * 3 <= fy + s.getHeight()*3 - s.getBorderWidth() * 3) return true; 
+			&& fy + s.getBorderWidth() * 3 <= y + e.getSprite().getBorderWidth() * 3 && y + e.getSprite().getBorderWidth() * 3 <= fy + s.getHeight()*3 - s.getBorderWidth() * 3) collidision = true;
 			//top right collision
 			if( fx + s.getBorderWidth() * 3 <= x + e.getSprite().getWidth()*3 - e.getSprite().getBorderWidth() * 3 && x + e.getSprite().getWidth()*3 - e.getSprite().getBorderWidth() * 3 <= fx + s.getWidth()*3 - s.getBorderWidth() * 3 
-					&& fy + s.getBorderWidth() * 3 <= y + e.getSprite().getBorderWidth() * 3 && y + e.getSprite().getBorderWidth() * 3 <= fy + s.getHeight()*3 - s.getBorderWidth() * 3) return true; 
+					&& fy + s.getBorderWidth() * 3 <= y + e.getSprite().getBorderWidth() * 3 && y + e.getSprite().getBorderWidth() * 3 <= fy + s.getHeight()*3 - s.getBorderWidth() * 3) collidision = true; 
 			//bottom left collision
 			if( fx + s.getBorderWidth() * 3 <= x + e.getSprite().getBorderWidth() * 3 && x + e.getSprite().getBorderWidth() * 3 <= fx + s.getWidth()*3 - s.getBorderWidth() * 3 
-					&& fy + s.getBorderWidth() * 3 <= y + e.getSprite().getHeight()*3 - e.getSprite().getBorderWidth()*3 && y + e.getSprite().getHeight()*3 - e.getSprite().getBorderWidth()*3 <= fy + s.getHeight()*3 - s.getBorderWidth() * 3) return true; 
+					&& fy + s.getBorderWidth() * 3 <= y + e.getSprite().getHeight()*3 - e.getSprite().getBorderWidth()*3 && y + e.getSprite().getHeight()*3 - e.getSprite().getBorderWidth()*3 <= fy + s.getHeight()*3 - s.getBorderWidth() * 3) collidision = true; 
 			//bottom right collision
 			if( fx + s.getBorderWidth() * 3 <= x + e.getSprite().getWidth()*3 - e.getSprite().getBorderWidth() * 3 && x + e.getSprite().getWidth()*3 - e.getSprite().getBorderWidth() * 3 <= fx + s.getWidth()*3 - s.getBorderWidth() * 3 
-					&& fy + s.getBorderWidth() * 3 <= y + e.getSprite().getHeight()*3 - e.getSprite().getBorderWidth()*3 && y + e.getSprite().getHeight()*3 - e.getSprite().getBorderWidth()*3 <= fy + s.getHeight()*3 - s.getBorderWidth() * 3) return true; 
+					&& fy + s.getBorderWidth() * 3 <= y + e.getSprite().getHeight()*3 - e.getSprite().getBorderWidth()*3 && y + e.getSprite().getHeight()*3 - e.getSprite().getBorderWidth()*3 <= fy + s.getHeight()*3 - s.getBorderWidth() * 3) collidision = true;
 					
 			///__________________ checking the opposite ( the npc to the entity ) ____________
 			//top left collision
 			if( x + e.getSprite().getBorderWidth()*3 <= fx + s.getBorderWidth()*3
 					&&  fx + s.getBorderWidth()*3 <=  x + e.getSprite().getWidth()*3 - e.getSprite().getBorderWidth()*3
 			&&  y + e.getSprite().getBorderWidth()*3 <= fy + s.getBorderWidth()*3
-					&& fy + s.getBorderWidth()*3 <= y + e.getSprite().getHeight()*3 - e.getSprite().getBorderWidth()*3) return true; 
+					&& fy + s.getBorderWidth()*3 <= y + e.getSprite().getHeight()*3 - e.getSprite().getBorderWidth()*3) collidision = true;; 
 			//top right collision
 			if( x + e.getSprite().getBorderWidth()*3 <= fx + s.getWidth()*3 - s.getBorderWidth()*3
 					&&  fx + s.getWidth()*3 - s.getBorderWidth()*3 <=  x + e.getSprite().getWidth()*3 - e.getSprite().getBorderWidth()*3
 			&&  y + e.getSprite().getBorderWidth()*3 <= fy + s.getBorderWidth()*3
-					&& fy + s.getBorderWidth()*3 <= y + e.getSprite().getHeight()*3 - e.getSprite().getBorderWidth()*3) return true; 
+					&& fy + s.getBorderWidth()*3 <= y + e.getSprite().getHeight()*3 - e.getSprite().getBorderWidth()*3) collidision = true;
 			//bottom left collision
 			if( x + e.getSprite().getBorderWidth()*3 <= fx + s.getBorderWidth()*3
 					&&  fx + s.getBorderWidth()*3 <=  x + e.getSprite().getWidth()*3 - e.getSprite().getBorderWidth()*3
 			&&  y + e.getSprite().getBorderWidth()*3 <= fy + s.getHeight()*3 - s.getBorderWidth()*3
-					&& fy + s.getHeight()*3 - s.getBorderWidth()*3 <= y + e.getSprite().getHeight()*3 - e.getSprite().getBorderWidth()*3) return true; 
+					&& fy + s.getHeight()*3 - s.getBorderWidth()*3 <= y + e.getSprite().getHeight()*3 - e.getSprite().getBorderWidth()*3) collidision = true;
 			//bottom right collision
 			if( x + e.getSprite().getBorderWidth()*3 <= fx + s.getWidth()*3 - s.getBorderWidth()*3
 					&&  fx + s.getWidth()*3 - s.getBorderWidth()*3 <=  x + e.getSprite().getWidth()*3 - e.getSprite().getBorderWidth()*3
 			&&  y + e.getSprite().getBorderWidth()*3 <= fy + s.getHeight()*3 - s.getBorderWidth()*3
-					&& fy + s.getHeight()*3 - s.getBorderWidth()*3 <= y + e.getSprite().getHeight()*3 - e.getSprite().getBorderWidth()*3) return true; 
+					&& fy + s.getHeight()*3 - s.getBorderWidth()*3 <= y + e.getSprite().getHeight()*3 - e.getSprite().getBorderWidth()*3) collidision = true; 
+			///_____________________ Dealing damage if the entity is a projectile
+			
+			if( e instanceof Projectile && collidision) this.foes.get(i).dealDamage( ((Projectile) e).getDamage() );
+			
+			if(collidision) return collidision;
 		}
-		return false;
+		return collidision;
 	}
 	
 ///Engine functionality___ once we set the canvas we make it centralised so the Player sets in the middle of the player
