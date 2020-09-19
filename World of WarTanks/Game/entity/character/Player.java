@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Game.Window;
+import Game.entity.character.Charact.Direction;
 import Game.entity.explosion.ExplosionCreator;
 import Game.entity.particles.ParticleCreator;
 import Game.entity.projectile.Projectile;
@@ -60,7 +61,7 @@ public class Player extends Charact {
 		if(Window.keyboard.pressedKeys[Keyboard.S]) {
 			ny++;
 		}
-		nx *= this.speed;
+		nx *= this.speed; 
 		ny *= this.speed;
 		
 		if( this.level.checkCollision(this.x + nx, this.y + ny, this) == true ||
@@ -68,6 +69,7 @@ public class Player extends Charact {
 				(nx == 0 && ny == 0)) dir = null;
 		this.move(nx,0);
 		this.move(0,ny);
+		
 		
 		this.updateAnimation();
 		this.shoot();
@@ -188,6 +190,20 @@ public class Player extends Charact {
 		
 	}
 	
+	
+	@Override
+	public void move(int x , int y) {
+		if(this.level.checkCollision(this.x + x, this.y + y, this) == false && this.level.checkCollisionNPC(this.x + x, this.y + y, this) == false ) {
+			this.x += x;
+			this.y += y;
+			
+			if(x < 0) dir = Direction.W;
+			if(x > 0 ) dir = Direction.E;
+			if(y < 0) dir = Direction.N;
+			if(y > 0 ) dir = Direction.S;
+			this.level.shift(x, y);
+		}
+	}
 	
 }
 

@@ -5,13 +5,16 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.imageio.ImageIO;
 
 import Game.Window;
+import Game.dataStructures.Node;
 import Game.entity.Entity;
 import Game.entity.character.Charact;
+import Game.entity.character.Charact.Direction;
 import Game.entity.character.Foe;
 import Game.entity.character.Player;
 import Game.entity.explosion.Explosion;
@@ -81,7 +84,7 @@ public class Level {
 
 		for(int i = 0 ; i < this.particles.size(); i++) this.particles.get(i).render();
 		for(int i = 0 ; i < this.explosions.size(); i++) this.explosions.get(i).render();
-		for(int i = 0 ; i < this.foes.size() ; i++) {this.foes.get(i).render();} 
+		for(int i = 0 ; i < this.foes.size() ; i++) {if(this.foes.get(i).isVisible()) this.foes.get(i).render();} 
 	}
 	
 	
@@ -154,14 +157,19 @@ public class Level {
 		
 		Sprite s;
 		int fx , fy;
+		
+		
 		for(int i = 0 ; i < this.foes.size() ; i++) {
-			
 			s = this.foes.get(i).getSprite();
 			fx = this.foes.get(i).getX(); fy = this.foes.get(i).getY();
 			if(!this.foes.get(i).isVisible() || 
 					( Math.abs(x - fx) > 48 || Math.abs(y - fy) > 48 ) ) 
 				continue;
 			 
+			if(e instanceof Foe)
+				if(this.foes.get(i).getID() == ((Foe)e).getID()) continue;
+			
+			
 			//top left collision
 			if( fx + s.getBorderWidth() * 3 <= x + e.getSprite().getBorderWidth() * 3 && x + e.getSprite().getBorderWidth() * 3 <= fx + s.getWidth()*3 - s.getBorderWidth() * 3 
 			&& fy + s.getBorderWidth() * 3 <= y + e.getSprite().getBorderWidth() * 3 && y + e.getSprite().getBorderWidth() * 3 <= fy + s.getHeight()*3 - s.getBorderWidth() * 3) collidision = true;
@@ -205,7 +213,151 @@ public class Level {
 		return collidision;
 	}
 	
-///Engine functionality___ once we set the canvas we make it centralised so the Player sets in the middle of the player
+	///Well be done next...
+    public boolean checkCollisionHero(int x, int y, Entity e) {
+    	return true;
+    }
+	
+	
+	public List<Direction> findHero(Foe f){
+		
+		int f_x_cord = (f.getX() + (f.getSprite().getWidth() * 3)/2) 
+						/ 
+						(this.getTile(0, 0).getSprite().getWidth() * 3);
+		int f_y_cord =  ( f.getY() + ((f.getSprite().getHeight() * 3)/2))
+						 /
+						 (this.getTile(0, 0).getSprite().getHeight() * 3);
+		int h_x_cord = ( this.hero.getX() + (this.hero.getSprite().getWidth()*3) / 2)
+							/
+						(this.getTile(0, 0).getSprite().getWidth() * 3);
+		int h_y_cord = (this.hero.getY() + (this.hero.getSprite().getHeight()*3) / 2) 
+							/ 
+						(this.getTile(0, 0).getSprite().getHeight() * 3);
+		
+		
+		Node last = new Node(h_x_cord , h_y_cord, null , this.getTile(h_x_cord , h_y_cord), getGoalCost(f, this.hero), 0.0);
+		
+		
+		List<Node> open = new ArrayList<Node>(); /// List of all the possible places to go to
+		List<Node> closed = new ArrayList<Node>(); /// List of the places that were taken in consideration already
+		List<Direction> directions = new ArrayList<Direction>();
+		
+		open.add(new Node( f_x_cord, f_y_cord, null, this.getTile(f_x_cord , f_y_cord), 0.0 , getGoalCost(f, this.hero) ) );
+		
+		while(true) {
+			///In case we of stucking in a room ( no possible tiles left in the open list to consider )
+			if(open.size() == 0) {
+				System.out.println("open finishd");
+				return null;
+			}
+			
+			Collections.sort(open);
+			Node current = open.get(0); /// grabing the current tile we are on so we add it to the closed list and keep its information
+			open.remove(0);
+			closed.add(current);
+			
+			/// the current information is used to check if the current == to the hero position
+			if ( current.equals(new Node(h_x_cord , h_y_cord, null, this.getTile(0, 0), getGoalCost(f, this.hero) , 0.0) ) )
+				{	System.out.println("found goal");
+					while( current.getParent() != null) {
+						this.addNodeDirection(current , directions);
+						current = current.getParent();
+						
+					}
+					return directions;
+				}
+			
+			/// Checking the neighbors and add them if they were not solid tiles or they are not in the closed list ( we have checkind them already ) 
+			for (int x = 0 ; x < 3 ; x++) {
+				for(int y = 0 ; y < 3 ; y++) {
+					
+					Node neighbor = new Node( current.getxCord() + (x - 1) , current.getyCord() + (y - 1) , null , this.getTile( current.getxCord() + (x - 1), current.getyCord() + (y - 1)), 0.0 , 0.0);
+					
+					/// we are skipping when x == 1 and y == 1, because it will be equal to the "current" tile-node-postion
+					if ( neighbor.traversable() || closed.contains(neighbor) || (x == 1 && y == 1) )
+						continue;		
+
+					/// THE NEIGBOR IS GOOD TO BE CHECKED AND ADDED TO THE OPEN LIST
+					neighbor.sethCost(this.getNodesDistance(neighbor, current)); /// setting the neighbor hCost and gCost since it is good to be added tot he open list
+					neighbor.setgCost(this.getNodesDistance(neighbor, last));
+					
+					int i = open.indexOf(neighbor);/// returns the index if found and -1 if not
+					
+					/// we are checking if the neighbor is already in the open list or not
+					if( i == -1 ) {
+						neighbor.setParent(current);// if it is not, add a parent to the neighbor and push it to the list
+						open.add(neighbor);
+					}else {// if it is already in the open list: check if it needs updating
+						if(open.get(i).gethCost() > neighbor.gethCost())
+							open.get(i).sethCost(neighbor.gethCost());
+					}
+				}
+			}
+		}
+	}
+
+private void addNodeDirection(Node node, List<Direction> directions) {
+		// TODO Auto-generated method stub
+		if(node.getxCord() - node.getParent().getxCord() == -1 && 
+				node.getyCord() - node.getParent().getyCord() == -1)
+			directions.add(Direction.NW);
+		if(node.getxCord() - node.getParent().getxCord() == 0 && 
+				node.getyCord() - node.getParent().getyCord() == -1)
+			directions.add(Direction.N);
+		if(node.getxCord() - node.getParent().getxCord() == 1 && 
+				node.getyCord() - node.getParent().getyCord() == -1)
+			directions.add(Direction.NE);
+		
+		if(node.getxCord() - node.getParent().getxCord() == -1 && 
+				node.getyCord() - node.getParent().getyCord() == 0)
+			directions.add(Direction.W);
+		if(node.getxCord() - node.getParent().getxCord() == 1 && 
+				node.getyCord() - node.getParent().getyCord() == 0 )
+			directions.add(Direction.E);
+		
+		if(node.getxCord() - node.getParent().getxCord() == -1 && 
+				node.getyCord() - node.getParent().getyCord() == 1)
+			directions.add(Direction.SW);
+		if(node.getxCord() - node.getParent().getxCord() == 0 && 
+				node.getyCord() - node.getParent().getyCord() == 1)
+			directions.add(Direction.S);
+		if(node.getxCord() - node.getParent().getxCord() == 1 && 
+				node.getyCord() - node.getParent().getyCord() == 1)
+			directions.add(Direction.SE);
+		
+	}
+
+private double getGoalCost(Foe f, Player h) {
+//		// TODO Auto-generated method stub
+	int f_x_cord = (f.getX() + (f.getSprite().getWidth() * 3)/2) 
+			/ 
+			(this.getTile(0, 0).getSprite().getWidth() * 3);
+	int f_y_cord =  ( f.getY() + ((f.getSprite().getHeight() * 3)/2))
+				 /
+				 (this.getTile(0, 0).getSprite().getHeight() * 3);
+	int h_x_cord = ( this.hero.getX() + (this.hero.getSprite().getWidth()*3) / 2)
+					/
+				(this.getTile(0, 0).getSprite().getWidth() * 3);
+	int h_y_cord = (this.hero.getY() + (this.hero.getSprite().getHeight()*3) / 2) 
+					/ 
+				(this.getTile(0, 0).getSprite().getHeight() * 3);
+	
+	
+		int xx = f_x_cord - h_x_cord;
+		int yy = f_y_cord - h_y_cord;
+		double distance = Math.sqrt(xx * xx + yy * yy);
+
+		return distance;
+	}
+
+private double getNodesDistance(Node first, Node last) {
+	int xx = first.getxCord() - last.getxCord();
+	int yy = first.getyCord() - last.getyCord();
+	double distance = Math.sqrt(xx * xx + yy * yy);
+	return distance;
+}
+
+	///Engine functionality___ once we set the canvas we make it centralised so the Player sets in the middle of the player
 	public void setCanvas(GameCanvas gameCanvas) {
 		this.canvas = gameCanvas;
 		shift(-(gameCanvas.getWidth()/2 - 48/2) , -(gameCanvas.getHeight()/2 - 48/2));

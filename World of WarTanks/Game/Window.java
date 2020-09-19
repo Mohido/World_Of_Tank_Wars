@@ -141,7 +141,7 @@ public class Window implements Runnable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
+	} 
 
 ///____________________________ MAIN
 	public static void main(String[] args) {
@@ -182,9 +182,9 @@ public class Window implements Runnable{
 		player.addSpriteRow(left);
 		player.setProjectile( normalProj );
 		///____________ Foe creation
-		Foe dumb = new Foe(level, 11 ,14, 3, 4, 1, 20, normalProj );
+		Foe dumb = new Foe(level, 18 ,14, 3, 4, 1, 20, normalProj );
 		count = 0;
-		for(int i = 2 ; i >= 0 ; i--) {
+		for(int i = 0 ; i < 3 ; i++) {
 			forward[i] = new Sprite(SpriteSheet.TANK_SHEET_2, count, 0, 16, 16, 2);
 			backward[i] = new Sprite(SpriteSheet.TANK_SHEET_2, count, 2, 16, 16, 2);
 			right[i] = new Sprite(SpriteSheet.TANK_SHEET_2, count, 1, 16, 16, 2);
