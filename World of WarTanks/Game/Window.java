@@ -76,14 +76,15 @@ public class Window implements Runnable{
 
 ///____________________ GAME FUNCTIONALITY__________________
 	private void update() {
-		components.get(0).update();
+		for(int i = 0 ; i < components.size() ; i++) {
+			components.get(i).update();
+		}
 	}
 
 	private void render() {
-//		for(int i = 0 ; i < components.size() ; i++) {
-//			components.get(i).render();
-//		}
-		components.get(0).render();
+		for(int i = 0 ; i < components.size() ; i++) {
+			components.get(i).render();
+		}
 	}
 
 ///_________________ Game Thread functionality
@@ -132,7 +133,8 @@ public class Window implements Runnable{
 		Window w = new Window();
 		
 		int game_width = 500;
-		Level level = new Level("../res/Sample_Level.png");
+		String map = "../res/Sample_Level.png";
+		Level level = new Level(map);
 		Projectile normalProj = new Projectile(100, 5, 15, 2,
 				   new Sprite(new SpriteSheet("../res/Pojectiles_Sheet.png"), 0, 0, 16, 16, 3),
 				   level);
@@ -144,6 +146,8 @@ public class Window implements Runnable{
 		game.createCanvasComponent();
 		game.setLevel(level);
 		
+		ui.setLevel(level);
+		ui.createMapComponent(map);
 		
 		///__________ Player Creation
 		Player player = new Player(level, 7 ,4, 3, 4, 1, 100);

@@ -55,6 +55,11 @@ Log 17:
 Log 18:
 	Added Health counter to the Hero
 
+Log 19:
+	Created a new class called MapComponents which extends canvas. This class represents our map
+	editted the GameComponent class with some new features as determining the canvas variable and do the appropriate thing to them.
+	Map now is alive and can be seen in the game -:)- the White color represents the player!
+
 Future Plan:
 Done	Creating Sprite class to handle specific sprites, and maybe creating an independent Tile class which represents the sprite.
 Done 	Creating a level class which allows you to create you own level design. The design can be taken from an image file.
@@ -67,8 +72,10 @@ Done	Creating a Healthbar an enemies Healthbars.
 		Note: created a health point not a bar for the quickness and the time pressure i am having
 
 UI:
+Done 	Creating a Mini-Map which will be a representation of the map.
 	Creating different weapons ( 3 Weapons states ) which can be chosen from the R.H.S panel
-	Creating a Mini-Map which will be a representation of the map.
+	implementing the count of enemies that are left in the game to the UI.
+
 Deleted		Creating more functionality:	
 N/A		 	1: creating random weapon on the map with different damages and rates of fire.
 N/A			2: creating a special weapon which consumes some energy. Therefore, and energy bar will be created under the main health Bar.

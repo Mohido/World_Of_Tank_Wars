@@ -33,6 +33,7 @@ public class GameCanvas extends Canvas implements MouseListener, MouseMotionList
 		this.size = height*width;
 		this.setFocusable(false);
 		this.setSize(width, height);
+		this.setPreferredSize(new Dimension(width,height));
 		image = new BufferedImage(this.width, this.height, BufferedImage.TYPE_INT_RGB);
 		pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
 	}
@@ -70,7 +71,8 @@ public class GameCanvas extends Canvas implements MouseListener, MouseMotionList
 		g.dispose();
 		bs.show();
 	}
-
+	
+	
 	///Helpers functionality
 	private void clear() {
 		for(int i = 0 ; i< this.size ; i++) pixels[i] = 0;

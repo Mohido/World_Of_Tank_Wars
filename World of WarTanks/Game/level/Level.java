@@ -126,46 +126,41 @@ public class Level {
 		}
 	}
 
+	
 /// ____ Positioning functionality
 	public void shift(int xPixels, int yPixels) {
 		this.xShift += xPixels;
 		this.yShift += yPixels;
-		//System.out.println("shifter");
 	}
+	
+	
+	
 	public boolean checkCollision(int x , int y, Entity e) {
-		
 		if(getTile( (x + e.getSprite().getBorderWidth() * 3)/48 , (y+ e.getSprite().getBorderWidth() * 3)/48).solid()) ///checking up and left
 			return true;
-
 		if(getTile((x + e.getSprite().getWidth() * 3 - e.getSprite().getBorderWidth() * 3)/48 , (y + e.getSprite().getHeight() * 3 - e.getSprite().getBorderWidth() * 3)/48).solid()) //checking down and right 
 			return true;
-		
 		if(getTile((x + e.getSprite().getBorderWidth() * 3)/48 , (y + e.getSprite().getHeight() * 3 -e.getSprite().getBorderWidth()*3)/48).solid()) /// checking down and left 
 			return true;
-		
 		if(getTile((x + e.getSprite().getWidth() * 3 - e.getSprite().getBorderWidth() * 3)/48 , (y + e.getSprite().getBorderWidth() * 3)/48).solid())  /// checking up and right
 			return true;
-		
 		return false;
 	}
+	
+	
+	
 	public boolean checkCollisionNPC(int x, int y, Entity e) {
 		boolean collidision = false;
-		
 		Sprite s;
 		int fx , fy;
-		
-		
 		for(int i = 0 ; i < this.foes.size() ; i++) {
 			s = this.foes.get(i).getSprite();
 			fx = this.foes.get(i).getX(); fy = this.foes.get(i).getY();
 			if(!this.foes.get(i).isVisible() || 
 					( Math.abs(x - fx) > 48 || Math.abs(y - fy) > 48 ) ) ///only check collision if the other object is close-by and if it is visible 
 				continue;
-			 
 			if(e instanceof Foe)
 				if(this.foes.get(i).getID() == ((Foe)e).getID()) continue;
-			
-			
 			//top left collision
 			if( fx + s.getBorderWidth() * 3 <= x + e.getSprite().getBorderWidth() * 3 && x + e.getSprite().getBorderWidth() * 3 <= fx + s.getWidth()*3 - s.getBorderWidth() * 3 
 			&& fy + s.getBorderWidth() * 3 <= y + e.getSprite().getBorderWidth() * 3 && y + e.getSprite().getBorderWidth() * 3 <= fy + s.getHeight()*3 - s.getBorderWidth() * 3) collidision = true;
@@ -201,9 +196,7 @@ public class Level {
 			&&  y + e.getSprite().getBorderWidth()*3 <= fy + s.getHeight()*3 - s.getBorderWidth()*3
 					&& fy + s.getHeight()*3 - s.getBorderWidth()*3 <= y + e.getSprite().getHeight()*3 - e.getSprite().getBorderWidth()*3) collidision = true; 
 			///_____________________ Dealing damage if the entity is a projectile
-			
 			if( e instanceof Projectile && collidision) this.foes.get(i).dealDamage( ((Projectile) e).getDamage() );
-			
 			if(collidision) return collidision;
 		}
 		
@@ -214,7 +207,6 @@ public class Level {
 			if(!((Foe)e).isVisible() || 
 					( Math.abs(x - fx) > 48 || Math.abs(y - fy) > 48 ) ) 
 				return false;
-			
 			//top left collision
 			if( fx + s.getBorderWidth() * 3 <= x + e.getSprite().getBorderWidth() * 3 && x + e.getSprite().getBorderWidth() * 3 <= fx + s.getWidth()*3 - s.getBorderWidth() * 3 
 			&& fy + s.getBorderWidth() * 3 <= y + e.getSprite().getBorderWidth() * 3 && y + e.getSprite().getBorderWidth() * 3 <= fy + s.getHeight()*3 - s.getBorderWidth() * 3) collidision = true;
@@ -227,7 +219,6 @@ public class Level {
 			//bottom right collision
 			if( fx + s.getBorderWidth() * 3 <= x + e.getSprite().getWidth()*3 - e.getSprite().getBorderWidth() * 3 && x + e.getSprite().getWidth()*3 - e.getSprite().getBorderWidth() * 3 <= fx + s.getWidth()*3 - s.getBorderWidth() * 3 
 					&& fy + s.getBorderWidth() * 3 <= y + e.getSprite().getHeight()*3 - e.getSprite().getBorderWidth()*3 && y + e.getSprite().getHeight()*3 - e.getSprite().getBorderWidth()*3 <= fy + s.getHeight()*3 - s.getBorderWidth() * 3) collidision = true;
-					
 			///__________________ checking the opposite ( the npc to the entity ) ____________
 			//top left collision
 			if( x + e.getSprite().getBorderWidth()*3 <= fx + s.getBorderWidth()*3
@@ -249,10 +240,7 @@ public class Level {
 					&&  fx + s.getWidth()*3 - s.getBorderWidth()*3 <=  x + e.getSprite().getWidth()*3 - e.getSprite().getBorderWidth()*3
 			&&  y + e.getSprite().getBorderWidth()*3 <= fy + s.getHeight()*3 - s.getBorderWidth()*3
 					&& fy + s.getHeight()*3 - s.getBorderWidth()*3 <= y + e.getSprite().getHeight()*3 - e.getSprite().getBorderWidth()*3) collidision = true; 
-			
 		}
-		
-		
 		return collidision;
 	}
     
@@ -465,5 +453,10 @@ private double getNodesDistance(Node first, Node last) {
 		if(this.canvas != null)
 			this.canvas.setPlayerHP(s);
 	}
+	
+	
+	public int getHeroX() { return this.hero.getX();}
+	public int getHeroY() { return this.hero.getY();}
+	
 	
 }
