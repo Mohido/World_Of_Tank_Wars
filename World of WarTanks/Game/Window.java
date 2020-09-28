@@ -75,23 +75,7 @@ public class Window implements Runnable{
 	}
 
 ///____________________ GAME FUNCTIONALITY__________________
-	int x_shifter = 100 , y_shifter = 100;
-
 	private void update() {
-		if(this.keyboard.pressedKeys[Keyboard.A]) {
-			x_shifter++;
-		}
-		if(this.keyboard.pressedKeys[Keyboard.D]) {
-			x_shifter--;
-		}
-		if(this.keyboard.pressedKeys[Keyboard.W] == true) {
-			y_shifter++;
-		}
-		if(this.keyboard.pressedKeys[Keyboard.S]) {
-			y_shifter--;
-		}
-		
-		
 		components.get(0).update();
 	}
 
@@ -162,7 +146,7 @@ public class Window implements Runnable{
 		
 		
 		///__________ Player Creation
-		Player player = new Player(level, 10 ,15, 3, 4, 1, 100);
+		Player player = new Player(level, 7 ,4, 3, 4, 1, 100);
 		Sprite[] forward = new Sprite[3];
 		Sprite[] backward = new Sprite[3];
 		Sprite[] right = new Sprite[3];
@@ -182,7 +166,8 @@ public class Window implements Runnable{
 		player.addSpriteRow(left);
 		player.setProjectile( normalProj );
 		///____________ Foe creation
-		Foe dumb = new Foe(level, 18 ,14, 3, 4, 1, 20, normalProj );
+		Foe dumb = new Foe(level, 8 ,9, 3, 4, 0.5, 20, normalProj );
+		dumb.setHeroSearchingRadius(200);
 		count = 0;
 		for(int i = 0 ; i < 3 ; i++) {
 			forward[i] = new Sprite(SpriteSheet.TANK_SHEET_2, count, 0, 16, 16, 2);

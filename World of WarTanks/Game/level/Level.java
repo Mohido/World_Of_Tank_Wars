@@ -98,7 +98,6 @@ public class Level {
 		}
 	}
 	
-	
 	public void renderTile(int x , int y, Tile tile) {
 		for(int yp = 0 ; yp < tile.getSprite().getHeight() * 3  ; yp++) {
 			int ya = y + yp;
@@ -163,7 +162,7 @@ public class Level {
 			s = this.foes.get(i).getSprite();
 			fx = this.foes.get(i).getX(); fy = this.foes.get(i).getY();
 			if(!this.foes.get(i).isVisible() || 
-					( Math.abs(x - fx) > 48 || Math.abs(y - fy) > 48 ) ) 
+					( Math.abs(x - fx) > 48 || Math.abs(y - fy) > 48 ) ) ///only check collision if the other object is close-by and if it is visible 
 				continue;
 			 
 			if(e instanceof Foe)
@@ -210,59 +209,86 @@ public class Level {
 			
 			if(collidision) return collidision;
 		}
+		
+		///_______________________ if it is a foe: we can check collision with hero!
+		if (e instanceof Foe) {
+			s = this.hero.getSprite();
+			fx = this.hero.getX(); fy = this.hero.getY();
+			if(!((Foe)e).isVisible() || 
+					( Math.abs(x - fx) > 48 || Math.abs(y - fy) > 48 ) ) 
+				return false;
+			
+			//top left collision
+			if( fx + s.getBorderWidth() * 3 <= x + e.getSprite().getBorderWidth() * 3 && x + e.getSprite().getBorderWidth() * 3 <= fx + s.getWidth()*3 - s.getBorderWidth() * 3 
+			&& fy + s.getBorderWidth() * 3 <= y + e.getSprite().getBorderWidth() * 3 && y + e.getSprite().getBorderWidth() * 3 <= fy + s.getHeight()*3 - s.getBorderWidth() * 3) collidision = true;
+			//top right collision
+			if( fx + s.getBorderWidth() * 3 <= x + e.getSprite().getWidth()*3 - e.getSprite().getBorderWidth() * 3 && x + e.getSprite().getWidth()*3 - e.getSprite().getBorderWidth() * 3 <= fx + s.getWidth()*3 - s.getBorderWidth() * 3 
+					&& fy + s.getBorderWidth() * 3 <= y + e.getSprite().getBorderWidth() * 3 && y + e.getSprite().getBorderWidth() * 3 <= fy + s.getHeight()*3 - s.getBorderWidth() * 3) collidision = true; 
+			//bottom left collision
+			if( fx + s.getBorderWidth() * 3 <= x + e.getSprite().getBorderWidth() * 3 && x + e.getSprite().getBorderWidth() * 3 <= fx + s.getWidth()*3 - s.getBorderWidth() * 3 
+					&& fy + s.getBorderWidth() * 3 <= y + e.getSprite().getHeight()*3 - e.getSprite().getBorderWidth()*3 && y + e.getSprite().getHeight()*3 - e.getSprite().getBorderWidth()*3 <= fy + s.getHeight()*3 - s.getBorderWidth() * 3) collidision = true; 
+			//bottom right collision
+			if( fx + s.getBorderWidth() * 3 <= x + e.getSprite().getWidth()*3 - e.getSprite().getBorderWidth() * 3 && x + e.getSprite().getWidth()*3 - e.getSprite().getBorderWidth() * 3 <= fx + s.getWidth()*3 - s.getBorderWidth() * 3 
+					&& fy + s.getBorderWidth() * 3 <= y + e.getSprite().getHeight()*3 - e.getSprite().getBorderWidth()*3 && y + e.getSprite().getHeight()*3 - e.getSprite().getBorderWidth()*3 <= fy + s.getHeight()*3 - s.getBorderWidth() * 3) collidision = true;
+					
+			///__________________ checking the opposite ( the npc to the entity ) ____________
+			//top left collision
+			if( x + e.getSprite().getBorderWidth()*3 <= fx + s.getBorderWidth()*3
+					&&  fx + s.getBorderWidth()*3 <=  x + e.getSprite().getWidth()*3 - e.getSprite().getBorderWidth()*3
+			&&  y + e.getSprite().getBorderWidth()*3 <= fy + s.getBorderWidth()*3
+					&& fy + s.getBorderWidth()*3 <= y + e.getSprite().getHeight()*3 - e.getSprite().getBorderWidth()*3) collidision = true;; 
+			//top right collision
+			if( x + e.getSprite().getBorderWidth()*3 <= fx + s.getWidth()*3 - s.getBorderWidth()*3
+					&&  fx + s.getWidth()*3 - s.getBorderWidth()*3 <=  x + e.getSprite().getWidth()*3 - e.getSprite().getBorderWidth()*3
+			&&  y + e.getSprite().getBorderWidth()*3 <= fy + s.getBorderWidth()*3
+					&& fy + s.getBorderWidth()*3 <= y + e.getSprite().getHeight()*3 - e.getSprite().getBorderWidth()*3) collidision = true;
+			//bottom left collision
+			if( x + e.getSprite().getBorderWidth()*3 <= fx + s.getBorderWidth()*3
+					&&  fx + s.getBorderWidth()*3 <=  x + e.getSprite().getWidth()*3 - e.getSprite().getBorderWidth()*3
+			&&  y + e.getSprite().getBorderWidth()*3 <= fy + s.getHeight()*3 - s.getBorderWidth()*3
+					&& fy + s.getHeight()*3 - s.getBorderWidth()*3 <= y + e.getSprite().getHeight()*3 - e.getSprite().getBorderWidth()*3) collidision = true;
+			//bottom right collision
+			if( x + e.getSprite().getBorderWidth()*3 <= fx + s.getWidth()*3 - s.getBorderWidth()*3
+					&&  fx + s.getWidth()*3 - s.getBorderWidth()*3 <=  x + e.getSprite().getWidth()*3 - e.getSprite().getBorderWidth()*3
+			&&  y + e.getSprite().getBorderWidth()*3 <= fy + s.getHeight()*3 - s.getBorderWidth()*3
+					&& fy + s.getHeight()*3 - s.getBorderWidth()*3 <= y + e.getSprite().getHeight()*3 - e.getSprite().getBorderWidth()*3) collidision = true; 
+			
+		}
+		
+		
 		return collidision;
 	}
+    
 	
-	///Well be done next...
-    public boolean checkCollisionHero(int x, int y, Entity e) {
-    	return true;
-    }
-	
-	
+	///A* path finding algorithm
 	public List<Direction> findHero(Foe f){
-		
+		List<Direction> directions = new ArrayList<Direction>();
 		int f_x_cord = (f.getX() + (f.getSprite().getWidth() * 3)/2) 
-						/ 
-						(this.getTile(0, 0).getSprite().getWidth() * 3);
+						/ 	(this.getTile(0, 0).getSprite().getWidth() * 3);
 		int f_y_cord =  ( f.getY() + ((f.getSprite().getHeight() * 3)/2))
-						 /
-						 (this.getTile(0, 0).getSprite().getHeight() * 3);
+						/ 	(this.getTile(0, 0).getSprite().getHeight() * 3);
 		int h_x_cord = ( this.hero.getX() + (this.hero.getSprite().getWidth()*3) / 2)
-							/
-						(this.getTile(0, 0).getSprite().getWidth() * 3);
+						/ 	(this.getTile(0, 0).getSprite().getWidth() * 3);
 		int h_y_cord = (this.hero.getY() + (this.hero.getSprite().getHeight()*3) / 2) 
-							/ 
-						(this.getTile(0, 0).getSprite().getHeight() * 3);
-		
+						/	 (this.getTile(0, 0).getSprite().getHeight() * 3);
 		
 		Node last = new Node(h_x_cord , h_y_cord, null , this.getTile(h_x_cord , h_y_cord), getGoalCost(f, this.hero), 0.0);
-		
-		
 		List<Node> open = new ArrayList<Node>(); /// List of all the possible places to go to
 		List<Node> closed = new ArrayList<Node>(); /// List of the places that were taken in consideration already
-		List<Direction> directions = new ArrayList<Direction>();
-		
 		open.add(new Node( f_x_cord, f_y_cord, null, this.getTile(f_x_cord , f_y_cord), 0.0 , getGoalCost(f, this.hero) ) );
-		
-		while(true) {
-			///In case we of stucking in a room ( no possible tiles left in the open list to consider )
-			if(open.size() == 0) {
-				System.out.println("open finishd");
-				return null;
-			}
+
+		while(open.size() > 0) {///In case we of stucking in a room ( no possible tiles left in the open list to consider )
 			
 			Collections.sort(open);
 			Node current = open.get(0); /// grabing the current tile we are on so we add it to the closed list and keep its information
 			open.remove(0);
 			closed.add(current);
-			
 			/// the current information is used to check if the current == to the hero position
 			if ( current.equals(new Node(h_x_cord , h_y_cord, null, this.getTile(0, 0), getGoalCost(f, this.hero) , 0.0) ) )
 				{	System.out.println("found goal");
 					while( current.getParent() != null) {
 						this.addNodeDirection(current , directions);
 						current = current.getParent();
-						
 					}
 					return directions;
 				}
@@ -272,17 +298,13 @@ public class Level {
 				for(int y = 0 ; y < 3 ; y++) {
 					
 					Node neighbor = new Node( current.getxCord() + (x - 1) , current.getyCord() + (y - 1) , null , this.getTile( current.getxCord() + (x - 1), current.getyCord() + (y - 1)), 0.0 , 0.0);
-					
-					/// we are skipping when x == 1 and y == 1, because it will be equal to the "current" tile-node-postion
-					if ( neighbor.traversable() || closed.contains(neighbor) || (x == 1 && y == 1) )
-						continue;		
-
+					if ( neighbor.getTile().solid() || closed.contains(neighbor) || (x == 1 && y == 1) )
+						continue;
 					/// THE NEIGBOR IS GOOD TO BE CHECKED AND ADDED TO THE OPEN LIST
 					neighbor.sethCost(this.getNodesDistance(neighbor, current)); /// setting the neighbor hCost and gCost since it is good to be added tot he open list
 					neighbor.setgCost(this.getNodesDistance(neighbor, last));
-					
-					int i = open.indexOf(neighbor);/// returns the index if found and -1 if not
-					
+	
+					int i = open.indexOf(neighbor);/// returns the index if found and -1 if not				
 					/// we are checking if the neighbor is already in the open list or not
 					if( i == -1 ) {
 						neighbor.setParent(current);// if it is not, add a parent to the neighbor and push it to the list
@@ -294,6 +316,7 @@ public class Level {
 				}
 			}
 		}
+		return null;
 	}
 
 private void addNodeDirection(Node node, List<Direction> directions) {
@@ -416,7 +439,16 @@ private double getNodesDistance(Node first, Node last) {
 		if(map[x + y * this.width] == 0xff430505) return Tile.mud2;
 		return Tile.water;
 	}
-
+	public double getHeroDistance(Entity foe) {
+		// TODO Auto-generated method stub
+		double x = foe.getX() - hero.getX();
+		double y = foe.getY() - hero.getY();
+		
+		double distance = Math.sqrt(x*x + y*y);
+		return distance;
+	}
+	
+	
 	public void addParticle(Particle particle) {
 		// TODO Auto-generated method stub
 		this.particles.add(particle);
@@ -431,5 +463,7 @@ private double getNodesDistance(Node first, Node last) {
 		// TODO Auto-generated method stub
 		this.foes.add(foe);
 	}
+
+	
 	
 }

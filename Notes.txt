@@ -9,11 +9,9 @@ Log 6:
 Log 7:
 	Rendered the level to the canvas..
 
-
 Log 8:
 	Done the rendering Tiles with the best i could and simplest way i figured.
 	Fixed the rendering method in the level class and added a new level.png
-
 
 Log 9:
 	Creating Character and player classes.
@@ -45,11 +43,14 @@ Log 15:
 	Added a dealDamage() method to the Charact class to make the characters taking damage by projectiles. It is called in the checkCollisionNPC() method
 	Added some kind of particles explosion after a Foe is destroyed or removed.
 
-
 Log 16:
 	implemented the a* paht finding algorithm to teh level class. It can be used by foes.
 	added an ID to each foe created on the map. and fixed a bug in the checkCollisionNPC() which was: the npc is colliding with itself.
 	the move function is no longer implemented in the Charact class. However it is declared there so children classes can override it.
+
+Log 17:
+	Editted a hero collision to the NPCs so they know if they are hitting the player or not.
+	added speed functionality to the NPCs Foes. It can be initiated with the character initialisation ( 2 constructors available -1 with speed value and the other without-)
 
 
 Future Plan:
@@ -59,9 +60,8 @@ Done 	Fixing the level rendering method and adding more functionality to it. Ren
 Done 	Adding collision physics and buffs for the Sprite classes. some sprite classes requires special collision detection methods.
 Done	Creating an Entity class to represent the independent objects as player, projectiles and particles.
 Done	Adding enemies and basic AI.
-	Perfecting the A* Algorithm and adding collision detection to foes so they can detect colliding with the player.
+Done	adding collision detection to foes so they can detect colliding with the player, add speed to foes and path finding starting distance.
 	Creating a Healthbar an enemies Healthbars.
-
 
 UI:
 	Creating different weapons ( 3 Weapons states ) which can be chosen from the R.H.S panel
@@ -69,6 +69,4 @@ UI:
 	Creating more functionality:	
 		1: creating random weapon on the map with different damages and rates of fire.
 		2: creating a special weapon which consumes some energy. Therefore, and energy bar will be created under the main health Bar.
-
-More to consider:
 	

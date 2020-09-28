@@ -10,9 +10,11 @@ import Game.level.Level;
 
 public class Foe extends Charact{
 	private boolean visible = false;
-	private int index = 0,  anim = 0;
+	private int index = 0,  anim = 0, dirReset = 0;
 	private static int foesCount = 0;
 	
+	private double speed = 1.0, path_finding_radius = 100; ///default speed
+	private double xh,yh;
 	private final int id;///Identifier for the Foes
 	
 	///sprite animations of moving
@@ -23,9 +25,29 @@ public class Foe extends Charact{
 	private Projectile projectile = null;
 	private List<Direction> heroDirections = null;
 	
-	public Foe(Level level, int xCoord, int yCoord, int spriteColumns, int spriteRows, int speed,  int health , Projectile proj) {///more functional constructor that allows the player to create his own sprites and then add them to the player_animation array
+	public Foe(Level level, int xCoord, int yCoord, int spriteColumns, int spriteRows, int health , Projectile proj) {///more functional constructor that allows the player to create his own sprites and then add them to the player_animation array
 		this.x = xCoord * 48 ;
 		this.y = yCoord * 48 ;
+		this.xh = (double)this.x;
+		this.yh = (double)this.y;
+		
+		this.level = level;
+		this.projectile = proj;
+		this.player_animation = new Sprite[spriteRows * spriteColumns];
+		this.spriteRows = spriteRows;
+		this.spriteColumns = spriteColumns;
+		this.health = health;
+		foesCount++;
+		this.id = foesCount;
+	}
+	
+	///with speed constructor
+	public Foe(Level level, int xCoord, int yCoord, int spriteColumns, int spriteRows, double speed,  int health , Projectile proj) {///more functional constructor that allows the player to create his own sprites and then add them to the player_animation array
+		this.x = xCoord * 48 ;
+		this.y = yCoord * 48 ;
+		this.xh = (double)this.x;
+		this.yh = (double)this.y;
+		
 		this.level = level;
 		this.projectile = proj;
 		this.speed = speed;
@@ -36,19 +58,20 @@ public class Foe extends Charact{
 		foesCount++;
 		this.id = foesCount;
 	}
-	
 	///___________ Update and render
 	public void update() {
 		this.updateVisibility();
-		this.updateDirections();
 		
+		this.updateDirections();
 		this.updateMovement();
 		
 		this.updateAnimation();
+		
 		anim++;
+		
 	}
 	
-
+	
 
 	public void render() {
 		if(this.visible) this.level.renderCharacter(this);
@@ -56,7 +79,7 @@ public class Foe extends Charact{
 	
 	///________ private functionality
 	private void updateAnimation() {
-		if(anim % 10 == 0) {
+		if(anim % 10 == 0 && this.heroDirections != null) {
 			if(dir == Direction.N) {
 				this.sprite = player_animation[ index % this.spriteColumns + 0*this.spriteColumns];
 				index++;
@@ -79,9 +102,22 @@ public class Foe extends Charact{
 	
 	
 	private void updateDirections() {
+		if (this.level.getHeroDistance(this) > this.path_finding_radius) {
+			heroDirections = null ; 
+			return;
+		}
+		
 		if(anim % 30 == 0) {
 			heroDirections = this.level.findHero(this);
+			dirReset = 1;
+			for(int i = heroDirections.size() - 1 ; i >= 0 ; i--)
+				System.out.println(heroDirections.get(i));
+		}else {
+			dirReset++;
 		}
+		
+		if(dirReset % 48 == 0 && heroDirections != null)
+			if(heroDirections.size() > 0) heroDirections.remove(heroDirections.size() - 1);
 	}
 	
 	private void updateMovement() {
@@ -89,7 +125,7 @@ public class Foe extends Charact{
 		if (heroDirections != null) {
 			if(heroDirections.size() > 0) {
 				switch(heroDirections.get(heroDirections.size() - 1)) {
-					case N: this.move (0,-1); System.out.println("moving"); break;
+					case N: this.move (0,-1); break;
 					case NE: move(1,0); move(0,-1); break;
 					case E: move (1,0); break;
 					case SE: move(1,0); move(0,1); break;
@@ -127,6 +163,9 @@ public class Foe extends Charact{
 		if(this.health <= 0) this.remove();
 	}
 	
+	public void setHeroSearchingRadius(double radius) {
+		this.path_finding_radius = radius;
+	}
 	
 	///_____________________ private functionality
 	private void updateVisibility() {
@@ -149,9 +188,15 @@ public class Foe extends Charact{
 	}
 	
 	public void move(int x , int y) {
-		if(this.level.checkCollision(this.x + x, this.y + y, this) == false && this.level.checkCollisionNPC(this.x + x, this.y + y, this) == false ) {
-			this.x += x;
-			this.y += y;
+
+		
+		
+		if(this.level.checkCollision((int)(this.xh + x * this.speed) , (int)(this.yh + y * this.speed), this) == false &&
+				this.level.checkCollisionNPC((int)(this.xh + x * this.speed) , (int)(this.yh + y * this.speed), this) == false ) {
+			this.xh += x * this.speed;
+			this.yh += y * this.speed;
+			this.x = (int)this.xh;
+			this.y = (int)this.yh;
 			
 			if(x < 0) dir = Direction.W;
 			if(x > 0 ) dir = Direction.E;

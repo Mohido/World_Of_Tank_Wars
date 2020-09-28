@@ -19,7 +19,6 @@ public class Player extends Charact {
 	private int index = 0;
 	private int rate = 0;
 	
-	
 	///sprite animations of moving
 	private Sprite[] player_animation = null;
 	private int spriteRows;
@@ -84,7 +83,6 @@ public class Player extends Charact {
 		}
 	}
 	
-	
 /// _________________ Functions called in the update method
 	private void updateAnimation(){
 		if( player_animation != null ) {
@@ -129,7 +127,6 @@ public class Player extends Charact {
 				
 				this.projectiles.add(new Projectile(this.x , this.y , Math.cos(angle) , Math.sin(angle), this.projectile) );
 				//System.out.println(Math.cos(angle) + ", " + Math.sin(angle));
-				
 			}
 			rate++;
 		}
@@ -187,7 +184,6 @@ public class Player extends Charact {
 					  + (m.y - level.getCanvasHeight()/2)*(m.y - level.getCanvasHeight()/2) );
 			this.projectile.setRange(range);
 		}
-		
 	}
 	
 	
