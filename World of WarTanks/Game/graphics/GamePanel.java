@@ -63,12 +63,6 @@ public class GamePanel extends JPanel implements MouseListener{
 		this.add(canvas);
 		this.setLayout(new GridLayout());
 	}
-	
-	public void render( int xoffset , int yoffset) {
-		if(canvas != null) {
-			canvas.render(xoffset, yoffset);
-		}
-	}
 
 	public void setLevel(Level level) {
 		this.level = level;

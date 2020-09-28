@@ -16,5 +16,5 @@ public class Charact extends Entity {
 	}
 	
 	public void dealDamage(int damage) {}
-	
+	public int getHP() {return this.health;}
 }

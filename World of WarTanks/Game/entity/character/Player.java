@@ -81,6 +81,10 @@ public class Player extends Charact {
 		for(int i = 0; i < this.projectiles.size() ; i++) {
 			this.projectiles.get(i).render();
 		}
+		
+		String s = "HP = " + this.health;
+		
+		this.level.renderPlayerHP(s);
 	}
 	
 /// _________________ Functions called in the update method

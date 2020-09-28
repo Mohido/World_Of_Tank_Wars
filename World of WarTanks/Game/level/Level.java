@@ -113,8 +113,7 @@ public class Level {
 ///_________ character rendering
 	public void renderCharacter(Charact character ) {
 		Sprite temp = character.getSprite();
-		
-		
+
 		///Simply: 
 		for(int y = 0; y < temp.getHeight() * 3; y++) {
 			int ya = character.getY() + y - yShift;
@@ -126,8 +125,6 @@ public class Level {
 			}
 		}
 	}
-	
-	
 
 /// ____ Positioning functionality
 	public void shift(int xPixels, int yPixels) {
@@ -464,6 +461,9 @@ private double getNodesDistance(Node first, Node last) {
 		this.foes.add(foe);
 	}
 
-	
+	public void renderPlayerHP(String s) {
+		if(this.canvas != null)
+			this.canvas.setPlayerHP(s);
+	}
 	
 }

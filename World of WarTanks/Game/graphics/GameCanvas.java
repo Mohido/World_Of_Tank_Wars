@@ -3,6 +3,7 @@ package Game.graphics;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -10,6 +11,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.util.ArrayList;
 
 import Game.level.Level;
 
@@ -23,7 +25,7 @@ public class GameCanvas extends Canvas implements MouseListener, MouseMotionList
 	private BufferedImage image;
 	public int[] pixels;
 	private Level level = null; /// the level to render!
-	
+	private String player_HP = null;
 	
 	public GameCanvas (int width , int height) {
 		this.height = height;
@@ -57,32 +59,17 @@ public class GameCanvas extends Canvas implements MouseListener, MouseMotionList
 		}
 		
 		Graphics g = bs.getDrawGraphics();
-		//g.setColor(Color.black);
+		
 		//g.fillRect(0, 0, this.width, this.height);
 		g.drawImage(this.image, 0, 0, this.width, this.height, null);
+		if(this.player_HP != null) {
+			g.setColor(Color.white);
+			g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
+			g.drawString(this.player_HP, 20, 20);
+		}
 		g.dispose();
 		bs.show();
 	}
-	
-	public void render(int xoffset , int yoffset) {
-		BufferStrategy bs = this.getBufferStrategy();
-		if(bs == null) {
-			this.createBufferStrategy(3);
-			return;
-		}
-		this.clear();
-		
-		if(level != null) {
-			level.render();
-		}
-		
-		Graphics g = bs.getDrawGraphics();
-		g.drawImage(this.image, 0, 0, this.width, this.height, null);
-		g.dispose();
-		bs.show();
-	}
-	
-	
 
 	///Helpers functionality
 	private void clear() {
@@ -150,4 +137,6 @@ public class GameCanvas extends Canvas implements MouseListener, MouseMotionList
 		// TODO Auto-generated method stub
 		//this.level.mousePressed(e.getX() , e.getY(), e.getButton());
 	}
+
+	public void setPlayerHP(String s) { this.player_HP = s;}
 }

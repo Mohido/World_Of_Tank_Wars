@@ -52,6 +52,8 @@ Log 17:
 	Editted a hero collision to the NPCs so they know if they are hitting the player or not.
 	added speed functionality to the NPCs Foes. It can be initiated with the character initialisation ( 2 constructors available -1 with speed value and the other without-)
 
+Log 18:
+	Added Health counter to the Hero
 
 Future Plan:
 Done	Creating Sprite class to handle specific sprites, and maybe creating an independent Tile class which represents the sprite.
@@ -61,12 +63,13 @@ Done 	Adding collision physics and buffs for the Sprite classes. some sprite cla
 Done	Creating an Entity class to represent the independent objects as player, projectiles and particles.
 Done	Adding enemies and basic AI.
 Done	adding collision detection to foes so they can detect colliding with the player, add speed to foes and path finding starting distance.
-	Creating a Healthbar an enemies Healthbars.
+Done	Creating a Healthbar an enemies Healthbars. 
+		Note: created a health point not a bar for the quickness and the time pressure i am having
 
 UI:
 	Creating different weapons ( 3 Weapons states ) which can be chosen from the R.H.S panel
 	Creating a Mini-Map which will be a representation of the map.
-	Creating more functionality:	
-		1: creating random weapon on the map with different damages and rates of fire.
-		2: creating a special weapon which consumes some energy. Therefore, and energy bar will be created under the main health Bar.
+Deleted		Creating more functionality:	
+N/A		 	1: creating random weapon on the map with different damages and rates of fire.
+N/A			2: creating a special weapon which consumes some energy. Therefore, and energy bar will be created under the main health Bar.
 	
