@@ -457,6 +457,8 @@ private double getNodesDistance(Node first, Node last) {
 	
 	public int getHeroX() { return this.hero.getX();}
 	public int getHeroY() { return this.hero.getY();}
+
+	public int getFoesCount() { return this.foes.size();}
 	
 	
 }

@@ -4,11 +4,15 @@ import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
@@ -24,7 +28,7 @@ public class GamePanel extends JPanel implements MouseListener{
 	public int width, height, size;
 	public int MouseX, MouseY;
 	private Level level;
-	
+	String enemiesLeft = null;
 	private Canvas canvas = null;
 	
 	public GamePanel(int width, int height){
@@ -51,6 +55,8 @@ public class GamePanel extends JPanel implements MouseListener{
 		}
 		if(this.canvas != null && this.canvas instanceof MapCanvas) {
 			((MapCanvas)this.canvas).update();
+			this.enemiesLeft = "Enemies Left: " + this.level.getFoesCount();
+			this.repaint();
 		}
 	}
 	
@@ -93,6 +99,10 @@ public class GamePanel extends JPanel implements MouseListener{
 	@Override
 	public void paintComponent(Graphics g) { ///painting the image into the JPanel (Cant use buffered strategy)
 		super.paintComponent(g);
+		if (this.canvas == null || this.canvas instanceof GameCanvas || this.enemiesLeft == null) return;
+		g.setColor(Color.LIGHT_GRAY);
+		g.setFont(new Font(Font.DIALOG, Font.ITALIC , 20));
+		g.drawString(this.enemiesLeft, 10 , this.height - this.width + this.width/2);
 	}
 	
 	  @Override public void mouseClicked(MouseEvent e) { 

@@ -73,9 +73,9 @@ Done	Creating a Healthbar an enemies Healthbars.
 
 UI:
 Done 	Creating a Mini-Map which will be a representation of the map.
-	Creating different weapons ( 3 Weapons states ) which can be chosen from the R.H.S panel
-	implementing the count of enemies that are left in the game to the UI.
+Done	implementing the count of enemies that are left in the game to the UI.
 
+Deleted	Creating different weapons ( 3 Weapons states ) which can be chosen from the R.H.S panel
 Deleted		Creating more functionality:	
 N/A		 	1: creating random weapon on the map with different damages and rates of fire.
 N/A			2: creating a special weapon which consumes some energy. Therefore, and energy bar will be created under the main health Bar.
