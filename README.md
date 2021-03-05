@@ -1,3 +1,4 @@
+
 # World of war tanks/ world of tank wars
 
 This is a simple 2d game with its engine written completely in java. You have the ability to create games with similarities using the game engine or you can enjoy the game as it is.
@@ -9,7 +10,10 @@ You play as a tank that has teh ability to navigate the level and shoot projecti
 # Pictures
 
 ![Screenshot 2021-03-05 093713](https://user-images.githubusercontent.com/48254077/110089557-8da68900-7d96-11eb-9664-f033db5feff6.png)
-<br/> <br/> 
+
+<br/>
+![Screenshot 2021-03-05 094942](https://user-images.githubusercontent.com/48254077/110091979-5e454b80-7d99-11eb-8c6b-407365ba81ee.png)
+<br/> 
 
 
 # Note:
