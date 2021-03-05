@@ -14,7 +14,9 @@ You play as a tank that has teh ability to navigate the level and shoot projecti
 
 # Note:
 
-This game is just a prototype that has been done by me -almost a year ago, but has not uploaded it to github. Therefor, it lacks some details.
+This game is just a prototype that has been done by me -almost a year ago, but has not uploaded it to github. Therefor, it lacks some details. 
+<br/>
+The source files are inside the "world of wartanks" folder
 
 
 # Have fun playing and learning :)
