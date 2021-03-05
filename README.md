@@ -12,8 +12,9 @@ You play as a tank that has teh ability to navigate the level and shoot projecti
 ![Screenshot 2021-03-05 093713](https://user-images.githubusercontent.com/48254077/110089557-8da68900-7d96-11eb-9664-f033db5feff6.png)
 
 <br/>
-![Screenshot 2021-03-05 094942](https://user-images.githubusercontent.com/48254077/110091979-5e454b80-7d99-11eb-8c6b-407365ba81ee.png)
+
 <br/> 
+![Screenshot 2021-03-05 094942](https://user-images.githubusercontent.com/48254077/110092060-77e69300-7d99-11eb-8b4f-d4066b5275eb.png)
 
 
 # Note:
