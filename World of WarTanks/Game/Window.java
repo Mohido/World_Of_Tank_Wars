@@ -102,8 +102,9 @@ public class Window implements Runnable{
 				currentTime = temp_time;
 				updates++;
 				this.update();
+				this.render();
 			}
-			this.render();
+			
 			frames++;
 			
 			long temp = System.currentTimeMillis();
